@@ -8,6 +8,19 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="釜山濟州">
 <link rel="manifest" href="manifest.json">
+<script>
+// 強制清除所有舊 Service Worker 和快取
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations().then(function(regs){
+    regs.forEach(function(r){r.unregister();});
+  });
+}
+if('caches' in window){
+  caches.keys().then(function(keys){
+    keys.forEach(function(k){caches.delete(k);});
+  });
+}
+</script>
 <title>釜山 × 濟州島 2026</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
