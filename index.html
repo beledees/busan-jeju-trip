@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#D4537E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="釜山濟州">
+<link rel="manifest" href="manifest.json">
+<title>釜山 × 濟州島 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Neue',Arial,sans-serif}
+:root{
+  --pk:#D4537E;--pk2:#FBEAF0;--pk3:#F4C0D1;--pk4:#72243E;
+  --tl:#1D9E75;--tl2:#E1F5EE;--tl3:#9FE1CB;
+  --am:#BA7517;--am2:#FAEEDA;--am3:#FAC775;
+  --pu:#534AB7;--pu2:#EEEDFE;--pu3:#CECBF6;
+  --gr:#5F5E5A;--gr2:#F1EFE8;--gr3:#D3D1C7;
+  --co:#993C1D;--co2:#FAECE7;--co3:#F5C4B3;
+  --bl:#185FA5;--bl2:#E6F1FB;--bl3:#B5D4F4;
+  --gn:#3B6D11;--gn2:#EAF3DE;--gn3:#C0DD97;
+  --bg:#FFF5F8;
+  --card:#FFFFFF;
+  --text:#2C2C2A;
+  --text2:#5F5E5A;
+  --text3:#B4B2A9;
+  --border:rgba(0,0,0,0.08);
+  --shadow:0 2px 12px rgba(212,83,126,0.08);
+}
+
+/* ===== LAYOUT ===== */
+.app{max-width:430px;margin:0 auto;min-height:100vh;background:var(--bg);padding-bottom:80px}
+.content{padding:0 16px}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;z-index:100;padding:6px 0 max(6px,env(safe-area-inset-bottom))}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;cursor:pointer;transition:all .2s;border:none;background:none}
+.nav-btn:active{transform:scale(.92)}
+.nav-ico{font-size:20px;line-height:1}
+.nav-lbl{font-size:10px;font-weight:500;color:var(--text3)}
+.nav-btn.on .nav-lbl{color:var(--pk)}
+.nav-btn.on .nav-ico{filter:none}
+.nav-dot{width:5px;height:5px;border-radius:50%;background:var(--pk);margin:0 auto;opacity:0}
+.nav-btn.on .nav-dot{opacity:1}
+
+/* ===== VIEWS ===== */
+.view{display:none;padding-top:0}
+.view.on{display:block}
+
+/* ===== HERO ===== */
+.hero{background:linear-gradient(135deg,#FBEAF0 0%,#F4C0D1 100%);padding:20px 16px 18px;position:relative;overflow:hidden;margin-bottom:0}
+.hero-blob{position:absolute;border-radius:50%;opacity:.5}
+.hero-blob1{width:120px;height:120px;background:#FAC775;top:-30px;right:-20px}
+.hero-blob2{width:80px;height:80px;background:#F4C0D1;bottom:-20px;right:40px}
+.hero-blob3{width:60px;height:60px;background:#9FE1CB;top:20px;right:60px;opacity:.3}
+.hero-chip{display:inline-flex;align-items:center;gap:5px;background:var(--pk);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:8px}
+.hero-title{font-size:26px;font-weight:700;color:var(--pk4);line-height:1.1;position:relative;z-index:1}
+.hero-sub{font-size:13px;color:#993556;margin-top:4px;position:relative;z-index:1}
+.countdown-bar{background:rgba(255,255,255,.7);border-radius:12px;padding:10px 14px;margin-top:12px;position:relative;z-index:1}
+.cd-label{font-size:11px;color:#993556;font-weight:500}
+.cd-num{font-size:22px;font-weight:700;color:var(--pk4);margin-top:1px}
+.cd-sub{font-size:11px;color:#993556}
+.fl-row{display:flex;gap:6px;margin-top:12px;position:relative;z-index:1}
+.fl-card{background:rgba(255,255,255,.8);border-radius:10px;padding:7px 10px;flex:1}
+.fl-lbl{font-size:9px;color:#993556;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.fl-val{font-size:11px;font-weight:700;color:var(--pk4);margin-top:1px}
+
+/* ===== SECTION LABEL ===== */
+.sec{font-size:10px;font-weight:700;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;margin:16px 0 8px;padding:0}
+
+/* ===== DAY PILLS ===== */
+.day-scroll{display:flex;gap:8px;overflow-x:auto;padding:0 16px 4px;margin:0 -16px;scrollbar-width:none}
+.day-scroll::-webkit-scrollbar{display:none}
+.dpill{flex-shrink:0;border-radius:18px;padding:10px 14px;cursor:pointer;text-align:center;border:1.5px solid var(--border);background:var(--card);transition:all .2s}
+.dpill:active{transform:scale(.92)}
+.dpill.on{background:var(--pk);border-color:var(--pk);box-shadow:0 4px 12px rgba(212,83,126,.3)}
+.dp-e{font-size:18px;line-height:1}
+.dp-n{font-size:12px;font-weight:700;color:var(--text);margin-top:2px}
+.dpill.on .dp-n,.dpill.on .dp-d{color:#fff}
+.dp-d{font-size:9px;color:var(--text3);margin-top:1px}
+
+/* ===== DAY HERO ===== */
+.dhero{border-radius:18px;padding:14px 16px;margin:10px 0 12px}
+.dh-title{font-size:16px;font-weight:700}
+.dh-sub{font-size:12px;margin-top:3px;opacity:.8;line-height:1.4}
+.dh-progress{display:flex;align-items:center;gap:8px;margin-top:8px}
+.dh-pbar{flex:1;height:4px;background:rgba(255,255,255,.4);border-radius:2px;overflow:hidden}
+.dh-pfill{height:100%;background:rgba(255,255,255,.85);border-radius:2px;transition:width .3s}
+.dh-pnum{font-size:10px;font-weight:600;opacity:.8}
+
+/* ===== STOP CARDS ===== */
+.stops{display:flex;flex-direction:column;gap:8px}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:12px 14px;box-shadow:var(--shadow);transition:all .2s}
+.sc.expandable{cursor:pointer}
+.sc.expandable:active{transform:scale(.985);box-shadow:0 1px 6px rgba(212,83,126,.1)}
+.sc.open{border-color:var(--pk3)}
+.sc-row{display:flex;align-items:flex-start;gap:10px}
+.sc-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.sc-mid{flex:1;min-width:0}
+.sc-time{font-size:10px;color:var(--text3);font-weight:600;margin-bottom:2px}
+.sc-name{font-size:14px;font-weight:700;color:var(--text);line-height:1.3}
+.sc-note{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5}
+.sc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tag{font-size:10px;padding:3px 8px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;gap:3px}
+.tag-must{background:#FAECE7;color:#993C1D}
+.tag-book{background:#EEEDFE;color:#534AB7}
+.tag-tip{background:#EAF3DE;color:#27500A}
+.tag-free{background:#E1F5EE;color:#085041}
+.tag-hours{background:#FAEEDA;color:#633806}
+.sc-end{flex-shrink:0;margin-left:4px}
+.arr{font-size:14px;color:var(--text3);transition:transform .25s;margin-top:4px}
+.sc.open .arr{transform:rotate(180deg)}
+.mapbtn{display:inline-flex;align-items:center;gap:5px;background:#E1F5EE;border:1px solid #9FE1CB;border-radius:10px;padding:6px 11px;font-size:11px;font-weight:700;color:#085041;text-decoration:none;margin-top:8px;transition:all .15s}
+.mapbtn:active{background:#9FE1CB;transform:scale(.96)}
+
+/* ===== CHOICES ===== */
+.choices{margin-top:10px;border-top:1px solid var(--border);padding-top:10px;display:none}
+.sc.open .choices{display:block}
+.ch-lbl{font-size:10px;font-weight:700;color:var(--text2);letter-spacing:.05em;text-transform:uppercase;margin-bottom:7px}
+.ch-item{display:flex;gap:9px;padding:9px 11px;border-radius:13px;background:#FAFAFA;margin-bottom:6px;cursor:pointer;transition:all .15s;border:1.5px solid transparent}
+.ch-item:active{transform:scale(.98)}
+.ch-item.picked{background:#FBEAF0;border-color:var(--pk3)}
+.ch-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.ch-body{flex:1;min-width:0}
+.ch-name{font-size:13px;font-weight:700;color:var(--text)}
+.ch-note{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.4}
+.ch-hrs{font-size:10px;color:#854F0B;margin-top:3px;font-weight:600}
+.ch-map{font-size:10px;color:var(--tl);margin-top:3px;text-decoration:none;display:inline-block;font-weight:600}
+.ch-pick{font-size:15px;color:var(--pk);opacity:0;flex-shrink:0;margin-top:2px;transition:opacity .15s}
+.ch-item.picked .ch-pick{opacity:1}
+
+/* ===== CARDS ===== */
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.card-ico{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.card-title{font-size:14px;font-weight:700;color:var(--text)}
+.card-sub{font-size:11px;color:var(--text2);margin-top:1px}
+.crow{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-top:1px solid var(--border)}
+.crow:first-child{border-top:none}
+.ck{font-size:12px;color:var(--text2);flex-shrink:0;margin-right:8px}
+.cv{font-size:12px;color:var(--text);text-align:right;font-weight:600;font-family:monospace;word-break:break-all}
+
+/* ===== CHECKLIST ===== */
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:7px;cursor:pointer;box-shadow:var(--shadow);transition:all .15s}
+.cl-item:active{transform:scale(.98)}
+.chkbox{width:20px;height:20px;border-radius:7px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
+.cl-item.done .chkbox{background:var(--pk);border-color:var(--pk)}
+.chkmark{font-size:12px;color:#fff;opacity:0}
+.cl-item.done .chkmark{opacity:1}
+.cl-text{font-size:13px;color:var(--text);font-weight:500;flex:1;line-height:1.4}
+.cl-item.done .cl-text{color:var(--text3);text-decoration:line-through}
+.cl-sub{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* ===== EXPENSE ===== */
+.exp-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.exp-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);text-align:center}
+.exp-card.total{grid-column:1/-1;background:linear-gradient(135deg,#FBEAF0,#F4C0D1)}
+.exp-lbl{font-size:11px;color:var(--text2);font-weight:500}
+.exp-val{font-size:20px;font-weight:700;color:var(--text);margin-top:3px}
+.exp-card.total .exp-val{font-size:26px;color:var(--pk4)}
+.exp-sub{font-size:11px;color:var(--text3);margin-top:2px}
+
+.settle-box{background:var(--pk2);border:1.5px solid var(--pk3);border-radius:16px;padding:14px;margin-bottom:12px;text-align:center}
+.settle-lbl{font-size:12px;color:#993556;font-weight:600}
+.settle-val{font-size:18px;font-weight:700;color:var(--pk4);margin-top:4px}
+
+.add-exp-form{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.form-row{display:flex;gap:8px;margin-bottom:10px;align-items:center}
+.form-label{font-size:12px;color:var(--text2);font-weight:600;min-width:52px}
+.form-input{flex:1;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;color:var(--text);background:var(--bg);outline:none;font-family:inherit;transition:border .2s}
+.form-input:focus{border-color:var(--pk3)}
+.form-select{flex:1;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:13px;color:var(--text);background:var(--bg);outline:none;appearance:none;font-family:inherit}
+.payer-row{display:flex;gap:8px}
+.payer-btn{flex:1;padding:9px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;text-align:center}
+.payer-btn.on{background:var(--pk);border-color:var(--pk);color:#fff}
+.add-btn{width:100%;padding:12px;border-radius:14px;background:var(--pk);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px}
+.add-btn:active{transform:scale(.97);background:#B8456B}
+
+.exp-list{display:flex;flex-direction:column;gap:7px}
+.exp-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:11px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
+.exp-cat-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.exp-info{flex:1;min-width:0}
+.exp-name{font-size:13px;font-weight:600;color:var(--text)}
+.exp-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.exp-amount{font-size:14px;font-weight:700;color:var(--text);flex-shrink:0}
+.exp-payer{font-size:10px;padding:2px 7px;border-radius:6px;font-weight:700;margin-top:2px;display:inline-block}
+.del-btn{background:none;border:none;font-size:16px;color:var(--text3);cursor:pointer;padding:4px;flex-shrink:0}
+
+.cat-chart{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.cat-row{display:flex;align-items:center;gap:8px}
+.cat-label{font-size:11px;color:var(--text2);width:48px;flex-shrink:0;font-weight:500}
+.cat-bar-wrap{flex:1;height:8px;background:var(--gr2);border-radius:4px;overflow:hidden}
+.cat-bar{height:100%;border-radius:4px;transition:width .4s}
+.cat-amt{font-size:11px;color:var(--text);width:70px;text-align:right;font-weight:600;flex-shrink:0}
+
+/* ===== EXCHANGE ===== */
+.exchange-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.ex-rate-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.ex-rate-lbl{font-size:12px;color:var(--text2);font-weight:600}
+.ex-rate-input{flex:1;border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700;color:var(--text);background:var(--bg);outline:none;font-family:monospace;text-align:center}
+.ex-rate-input:focus{border-color:var(--pk3)}
+.ex-main{display:flex;flex-direction:column;gap:12px}
+.ex-field{background:var(--bg);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;transition:border .2s}
+.ex-field:focus-within{border-color:var(--pk)}
+.ex-field-lbl{font-size:11px;color:var(--text2);font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.ex-flag{font-size:16px}
+.ex-input{width:100%;border:none;background:transparent;font-size:26px;font-weight:700;color:var(--text);outline:none;font-family:inherit}
+.ex-input::placeholder{color:var(--text3)}
+.ex-swap{display:flex;justify-content:center;margin:0}
+.ex-swap-btn{width:40px;height:40px;border-radius:50%;background:var(--pk);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ex-swap-btn:active{transform:scale(.9) rotate(180deg)}
+.quick-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.quick-btn{flex:1;min-width:calc(25% - 5px);padding:8px 4px;border-radius:10px;background:var(--pk2);border:1px solid var(--pk3);font-size:11px;font-weight:700;color:var(--pk4);cursor:pointer;text-align:center;transition:all .15s}
+.quick-btn:active{background:var(--pk3);transform:scale(.96)}
+
+/* ===== WEATHER ===== */
+.weather-scroll{display:flex;gap:7px;overflow-x:auto;margin:0 -16px;padding:0 16px 4px;scrollbar-width:none}
+.weather-scroll::-webkit-scrollbar{display:none}
+.wcard{flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px 12px;text-align:center;min-width:62px;box-shadow:var(--shadow)}
+.wd{font-size:10px;color:var(--text2);font-weight:600}
+.wi{font-size:22px;margin:4px 0}
+.wt{font-size:12px;font-weight:700;color:var(--text)}
+.wr{font-size:10px;color:#185FA5;margin-top:2px;font-weight:500}
+
+/* ===== EMERGENCY ===== */
+.sos-btn{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#FCEBEB,#F7C1C1);border:1.5px solid #F09595;border-radius:16px;padding:14px 16px;margin-bottom:8px;cursor:pointer;text-decoration:none;transition:all .2s}
+.sos-btn:active{transform:scale(.97)}
+.sos-ico{font-size:24px;flex-shrink:0}
+.sos-label{font-size:14px;font-weight:700;color:#791F1F}
+.sos-sub{font-size:11px;color:#A32D2D;margin-top:2px}
+
+/* ===== NOTES ===== */
+.note-area{width:100%;min-height:100px;border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--text);background:var(--card);resize:vertical;font-family:inherit;outline:none;line-height:1.6}
+.note-area:focus{border-color:var(--pk3)}
+.note-area::placeholder{color:var(--text3)}
+
+/* ===== STAYS ===== */
+.code-box{background:var(--pk2);border:1px solid var(--pk3);border-radius:10px;padding:6px 12px;font-family:monospace;font-size:16px;font-weight:700;color:var(--pk4);display:inline-block;letter-spacing:.05em}
+
+/* ===== BUDGET CHECKER ===== */
+.budget-total{background:linear-gradient(135deg,#FBEAF0,#F4C0D1);border-radius:18px;padding:16px;text-align:center;margin-bottom:12px}
+.bt-lbl{font-size:12px;color:#993556;font-weight:600}
+.bt-num{font-size:32px;font-weight:700;color:var(--pk4);margin:4px 0}
+.bt-sub{font-size:11px;color:#993556}
+.budget-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px}
+.bg-item{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:10px 12px;cursor:pointer;transition:all .2s;box-shadow:var(--shadow)}
+.bg-item.off{opacity:.4}
+.bg-item:active{transform:scale(.96)}
+.bg-lbl{font-size:11px;color:var(--text2)}
+.bg-val{font-size:14px;font-weight:700;color:var(--text);margin-top:3px}
+
+/* ===== UTILITY ===== */
+.mt8{margin-top:8px}
+.mt12{margin-top:12px}
+.mt16{margin-top:16px}
+.mb8{margin-bottom:8px}
+.chip{display:inline-block;font-size:10px;padding:3px 9px;border-radius:8px;font-weight:700}
+.empty{text-align:center;padding:32px 16px;color:var(--text3);font-size:14px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ===== HOME VIEW ===== -->
+<div id="view-home" class="view on">
+  <div class="hero">
+    <div class="hero-blob hero-blob1"></div>
+    <div class="hero-blob hero-blob2"></div>
+    <div class="hero-blob hero-blob3"></div>
+    <div class="hero-chip">✈ 2人旅行 · 七天六夜</div>
+    <div class="hero-title">釜山 × 濟州島</div>
+    <div class="hero-sub">2026 / 05 / 13 — 05 / 19</div>
+    <div class="countdown-bar">
+      <div class="cd-label" id="cd-label">距離出發</div>
+      <div class="cd-num" id="cd-num">—</div>
+      <div class="cd-sub" id="cd-sub">計算中...</div>
+    </div>
+    <div class="fl-row">
+      <div class="fl-card"><div class="fl-lbl">去程 ZE988</div><div class="fl-val">5/13 02:35▸06:05</div></div>
+      <div class="fl-card"><div class="fl-lbl">轉機 7C511</div><div class="fl-val">5/16 17:00▸18:00</div></div>
+      <div class="fl-card"><div class="fl-lbl">回程 LJ763</div><div class="fl-val">5/19 22:15▸00:15</div></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="sec mt16">天氣預覽</div>
+    <div class="weather-scroll" id="weather-strip"></div>
+
+    <div class="sec mt16">旅遊重點提醒</div>
+    <div class="card">
+      <div class="card-head"><div class="card-ico" style="background:#FAEEDA">💡</div><div><div class="card-title">省錢攻略</div></div></div>
+      <div class="crow"><span class="ck">新世界百貨 3F</span><span class="cv">辦會員卡→95折+折價券</span></div>
+      <div class="crow"><span class="ck">Spa Land 19:00後</span><span class="cv">40–50% 折扣</span></div>
+      <div class="crow"><span class="ck">Klook</span><span class="cv">Spa Land / 翰林公園</span></div>
+      <div class="crow"><span class="ck">Busan Pass</span><span class="cv">Spa Land+纜車+Luge</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="card-ico" style="background:#EEEDFE">📱</div><div><div class="card-title">必備 App</div></div></div>
+      <div class="crow"><span class="ck">Naver Map</span><span class="cv">韓國導航必備</span></div>
+      <div class="crow"><span class="ck">Kakao T</span><span class="cv">叫計程車，先註冊</span></div>
+      <div class="crow"><span class="ck">Catch Table</span><span class="cv">83 Haechi 遠端候位</span></div>
+      <div class="crow"><span class="ck">Papago</span><span class="cv">即時翻譯</span></div>
+      <div class="crow"><span class="ck">T Locker</span><span class="cv">找附近置物櫃</span></div>
+    </div>
+
+    <div class="sec">緊急資訊</div>
+    <a class="sos-btn" href="tel:119"><div class="sos-ico">🚑</div><div><div class="sos-label">韓國救護車 119</div><div class="sos-sub">點擊直接撥打</div></div></a>
+    <a class="sos-btn" href="tel:112"><div class="sos-ico">🚔</div><div><div class="sos-label">韓國報警 112</div><div class="sos-sub">點擊直接撥打</div></div></a>
+    <a class="sos-btn" href="tel:+82-2-3210-0404"><div class="sos-ico">🇹🇼</div><div><div class="sos-label">台灣駐韓急難救助</div><div class="sos-sub">+82-2-3210-0404</div></div></a>
+    <a class="sos-btn" href="tel:+886-800-024-111"><div class="sos-ico">💳</div><div><div class="sos-label">信用卡掛失（國泰）</div><div class="sos-sub">+886-800-024-111</div></div></a>
+  </div>
+</div>
+
+<!-- ===== ITINERARY VIEW ===== -->
+<div id="view-trip" class="view">
+  <div class="hero" style="padding-bottom:14px">
+    <div class="hero-blob hero-blob1"></div>
+    <div class="hero-blob hero-blob2"></div>
+    <div class="hero-title" style="font-size:20px">行程表</div>
+    <div class="hero-sub">點選天數查看詳細行程</div>
+  </div>
+  <div style="padding:12px 16px 0">
+    <div class="day-scroll" id="day-scroll"></div>
+    <div id="dhero-wrap" class="mt8"></div>
+    <div class="stops" id="stops-wrap"></div>
+  </div>
+</div>
+
+<!-- ===== EXPENSE VIEW ===== -->
+<div id="view-expense" class="view">
+  <div class="hero" style="padding-bottom:14px">
+    <div class="hero-blob hero-blob1"></div>
+    <div class="hero-title" style="font-size:20px">費用記錄</div>
+    <div class="hero-sub">記帳 + 分帳 + 匯率換算</div>
+  </div>
+  <div class="content" style="padding-top:14px">
+
+    <!-- Exchange -->
+    <div class="sec">匯率換算</div>
+    <div class="exchange-box">
+      <div class="ex-rate-row">
+        <div class="ex-rate-lbl">今日匯率 1 TWD =</div>
+        <input class="ex-rate-input" id="ex-rate" type="number" value="42" step="0.1" oninput="calcExchange()">
+        <div style="font-size:13px;font-weight:700;color:var(--text2)">KRW</div>
+      </div>
+      <div class="ex-main">
+        <div class="ex-field">
+          <div class="ex-field-lbl"><span class="ex-flag">🇹🇼</span> 台幣 TWD</div>
+          <input class="ex-input" id="ex-twd" type="number" placeholder="0" oninput="fromTWD()">
+        </div>
+        <div class="ex-swap">
+          <button class="ex-swap-btn" onclick="swapEx()">⇅</button>
+        </div>
+        <div class="ex-field">
+          <div class="ex-field-lbl"><span class="ex-flag">🇰🇷</span> 韓幣 KRW</div>
+          <input class="ex-input" id="ex-krw" type="number" placeholder="0" oninput="fromKRW()">
+        </div>
+      </div>
+      <div class="quick-btns" id="quick-btns"></div>
+    </div>
+
+    <!-- Summary -->
+    <div class="sec">消費總覽</div>
+    <div class="exp-summary">
+      <div class="exp-card total">
+        <div class="exp-lbl">旅遊總消費</div>
+        <div class="exp-val" id="total-val">₩0</div>
+        <div class="exp-sub" id="total-twd">≈ NT$0</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-lbl" id="p1-lbl">人A 付出</div>
+        <div class="exp-val" id="p1-val">₩0</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-lbl" id="p2-lbl">人B 付出</div>
+        <div class="exp-val" id="p2-val">₩0</div>
+      </div>
+    </div>
+    <div class="settle-box" id="settle-box">
+      <div class="settle-lbl">AA結算</div>
+      <div class="settle-val" id="settle-val">尚無記錄</div>
+    </div>
+
+    <!-- Category chart -->
+    <div class="card mb8">
+      <div class="card-head"><div class="card-ico" style="background:#EAF3DE">📊</div><div><div class="card-title">消費類別</div></div></div>
+      <div class="cat-chart" id="cat-chart"></div>
+    </div>
+
+    <!-- Add expense -->
+    <div class="sec">新增費用</div>
+    <div class="add-exp-form">
+      <div class="form-row">
+        <div class="form-label">金額 ₩</div>
+        <input class="form-input" id="exp-amount" type="number" placeholder="例：15000" inputmode="numeric">
+      </div>
+      <div class="form-row">
+        <div class="form-label">備註</div>
+        <input class="form-input" id="exp-note" type="text" placeholder="例：83 Haechi 烤肉">
+      </div>
+      <div class="form-row">
+        <div class="form-label">類別</div>
+        <select class="form-select" id="exp-cat">
+          <option value="餐廳">🍖 餐廳</option>
+          <option value="咖啡廳">☕ 咖啡廳</option>
+          <option value="景點">🎡 景點</option>
+          <option value="交通">🚕 交通</option>
+          <option value="購物">🛍 購物</option>
+          <option value="住宿">🏠 住宿</option>
+          <option value="其他">📦 其他</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-label">付款人</div>
+        <div class="payer-row" style="flex:1">
+          <div class="payer-btn on" id="pb1" onclick="selPayer(1)">人A</div>
+          <div class="payer-btn" id="pb2" onclick="selPayer(2)">人B</div>
+        </div>
+      </div>
+      <button class="add-btn" onclick="addExpense()">＋ 新增這筆費用</button>
+    </div>
+
+    <!-- Expense list -->
+    <div class="sec">費用明細</div>
+    <div class="exp-list" id="exp-list"></div>
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+<!-- ===== CHECKLIST VIEW ===== -->
+<div id="view-check" class="view">
+  <div class="hero" style="padding-bottom:14px">
+    <div class="hero-blob hero-blob1"></div>
+    <div class="hero-title" style="font-size:20px">待辦清單</div>
+    <div class="hero-sub" id="check-progress-text">點擊項目勾選完成</div>
+  </div>
+  <div class="content" style="padding-top:14px" id="todo-wrap"></div>
+</div>
+
+<!-- ===== STAYS VIEW ===== -->
+<div id="view-stays" class="view">
+  <div class="hero" style="padding-bottom:14px">
+    <div class="hero-blob hero-blob1"></div>
+    <div class="hero-title" style="font-size:20px">住宿 & 班機</div>
+    <div class="hero-sub">重要資訊隨時查閱</div>
+  </div>
+  <div class="content" style="padding-top:14px">
+    <div class="sec">釜山住宿</div>
+    <div class="card">
+      <div class="card-head"><div class="card-ico" style="background:#FBEAF0">🏠</div><div><div class="card-title">Prugio City B棟604</div><div class="card-sub">5/13–5/16</div></div></div>
+      <div class="crow"><span class="ck">入住</span><span class="cv">5/13 16:00起</span></div>
+      <div class="crow"><span class="ck">退房</span><span class="cv">5/16 12:00前</span></div>
+      <div class="crow"><span class="ck">門鎖密碼</span><span class="cv"><span class="code-box">0406*</span></span></div>
+      <div class="crow"><span class="ck">停車場</span><span class="cv"><span class="code-box">#2369</span></span></div>
+      <div class="crow"><span class="ck">緊急樓梯</span><span class="cv"><span class="code-box">#2580</span></span></div>
+      <div class="crow"><span class="ck">WiFi ID</span><span class="cv"><span class="code-box">B604</span></span></div>
+      <div class="crow"><span class="ck">WiFi 密碼</span><span class="cv"><span class="code-box">b060406047</span></span></div>
+      <div class="crow"><span class="ck">確認碼</span><span class="cv">HMEZQJQR2F</span></div>
+    </div>
+
+    <div class="sec">濟州住宿</div>
+    <div class="card">
+      <div class="card-head"><div class="card-ico" style="background:#E1F5EE">🏝</div><div><div class="card-title">涯月（애월）區域</div><div class="card-sub">5/16–5/19</div></div></div>
+      <div class="crow"><span class="ck">推薦區域</span><span class="cv">涯月，咖啡廳最密集</span></div>
+      <div class="crow"><span class="ck">距機場</span><span class="cv">自駕20-25分</span></div>
+      <div class="crow"><span class="ck">狀態</span><span class="cv">待確認後補入</span></div>
+    </div>
+
+    <div class="sec">班機資訊</div>
+    <div class="card">
+      <div class="card-head"><div class="card-ico" style="background:#EEEDFE">✈</div><div><div class="card-title">所有班機</div></div></div>
+      <div class="crow"><span class="ck">去程 ZE988</span><span class="cv">5/13 02:35→06:05</span></div>
+      <div class="crow"><span class="ck">訂位碼</span><span class="cv"><span class="code-box">Y7KVJM</span></span></div>
+      <div class="crow"><span class="ck">轉機 7C511</span><span class="cv">5/16 17:00→18:00</span></div>
+      <div class="crow"><span class="ck">訂位碼</span><span class="cv"><span class="code-box">HF1FYN</span></span></div>
+      <div class="crow"><span class="ck">回程 LJ763</span><span class="cv">5/19 22:15→00:15+1</span></div>
+      <div class="crow"><span class="ck">訂位碼</span><span class="cv"><span class="code-box">WPB7L5</span></span></div>
+    </div>
+
+    <div class="sec">票價總表</div>
+    <div class="card">
+      <div class="card-head"><div class="card-ico" style="background:#FAEEDA">🎫</div><div><div class="card-title">景點門票</div><div class="card-sub">2人合計</div></div></div>
+      <div class="crow"><span class="ck">Spa Land</span><span class="cv">₩40,000（2人）</span></div>
+      <div class="crow"><span class="ck">Blue Line Park</span><span class="cv">₩30,000（2人）</span></div>
+      <div class="crow"><span class="ck">城山日出峰</span><span class="cv">₩4,000（2人）</span></div>
+      <div class="crow"><span class="ck">牛島渡輪</span><span class="cv">₩30,000（2人來回）</span></div>
+      <div class="crow"><span class="ck">牛島電動車</span><span class="cv">₩30,000（1台現金）</span></div>
+      <div class="crow"><span class="ck">翰林公園</span><span class="cv">₩24,000（2人）</span></div>
+      <div class="crow"><span class="ck">O'sulloc</span><span class="cv">免費入場</span></div>
+      <div class="crow"><span class="ck">海東龍宮寺</span><span class="cv">免費入場</span></div>
+      <div class="crow"><span class="ck">橘子園體驗</span><span class="cv">₩20,000（2人）</span></div>
+    </div>
+
+    <div class="sec">計程車費參考</div>
+    <div class="card">
+      <div class="card-head"><div class="card-ico" style="background:#E1F5EE">🚕</div><div><div class="card-title">釜山常用路線</div></div></div>
+      <div class="crow"><span class="ck">機場→Spa Land</span><span class="cv">約₩45,000（45分）</span></div>
+      <div class="crow"><span class="ck">住宿→龍宮寺</span><span class="cv">約₩22,000（25分）</span></div>
+      <div class="crow"><span class="ck">青沙浦→住宿</span><span class="cv">約₩10,000（12分）</span></div>
+      <div class="crow"><span class="ck">甘川洞→白淺灘</span><span class="cv">約₩14,000（17分）</span></div>
+      <div class="crow"><span class="ck">住宿→西面</span><span class="cv">約₩22,000（25分）</span></div>
+      <div class="crow"><span class="ck">Outlet→金海機場</span><span class="cv">約₩8,000（15分）</span></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end app -->
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <div class="nav-btn on" onclick="showView('home',this)">
+    <div class="nav-ico">🏠</div>
+    <div class="nav-lbl">首頁</div>
+    <div class="nav-dot"></div>
+  </div>
+  <div class="nav-btn" onclick="showView('trip',this)">
+    <div class="nav-ico">🗓</div>
+    <div class="nav-lbl">行程</div>
+    <div class="nav-dot"></div>
+  </div>
+  <div class="nav-btn" onclick="showView('expense',this)">
+    <div class="nav-ico">💰</div>
+    <div class="nav-lbl">記帳</div>
+    <div class="nav-dot"></div>
+  </div>
+  <div class="nav-btn" onclick="showView('check',this)">
+    <div class="nav-ico">✅</div>
+    <div class="nav-lbl">待辦</div>
+    <div class="nav-dot"></div>
+  </div>
+  <div class="nav-btn" onclick="showView('stays',this)">
+    <div class="nav-ico">🔑</div>
+    <div class="nav-lbl">資訊</div>
+    <div class="nav-dot"></div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const TRIP_START = new Date('2026-05-13T02:35:00+08:00');
+const TRIP_END   = new Date('2026-05-19T22:15:00+09:00');
+
+const DAYS=[
+{e:"🛬",l:"Day 1",d:"5/13 三",thm:"抵達修復日",desc:"Spa Land泡湯 → 新世界百貨 → 海雲台傍晚",bg:"#FBEAF0",tc:"#72243E",sc:"#993556",
+stops:[
+ {t:"06:05",ico:"✈",ib:"#E6F1FB",nm:"金海機場抵達",note:"計程車約45分 ₩45,000 前往 Spa Land。或機場巴士60分。",tags:[],map:"https://naver.me/Fy1mMfH9"},
+ {t:"09:00",ico:"♨",ib:"#E1F5EE",nm:"Spa Land Centum City",note:"泡湯、汗蒸幕、補眠。行李放更衣室大型置物櫃。19:00後入場5折！",tags:[{l:"09:00–22:00",c:"hours"},{l:"必去",c:"must"}],map:"https://naver.me/5OdN5WEH"},
+ {t:"11:00",ico:"🛍",ib:"#FAEEDA",nm:"新世界百貨 Centum City",note:"先去3F辦會員卡！送折價券+飲料券，消費95折。B2F置物櫃前4小時免費。",tags:[{l:"10:30–20:30",c:"hours"},{l:"辦會員卡",c:"tip"}],map:"https://naver.me/FJFjH2ot"},
+ {t:"15:15",ico:"🏠",ib:"#F4C0D1",nm:"Check-in Prugio City B604",note:"密碼 0406*，B棟6F，無前台直接入住。16:00起。",tags:[{l:"16:00入住",c:"book"}]},
+ {t:"17:00",ico:"🌊",ib:"#E1F5EE",nm:"海雲台海水浴場",note:"傍晚黃金光線！步行5分鐘，散步拍照最美時段。",tags:[{l:"全天開放",c:"free"},{l:"拍照",c:"tip"}],map:"https://naver.me/GDuS5FDQ"},
+ {t:"18:30",ico:"🍖",ib:"#FAECE7",nm:"晚餐",note:"點擊展開所有選項",tags:[{l:"5選1",c:"must"}],
+  choices:[
+   {n:"83 Haechi 獬豸烤肉（廣安里）",note:"豬頸肉第一，炒飯滿滿鍋巴！Catch Table App遠端候位。",hrs:"15:30–01:00",c:"#D4537E",map:"https://naver.me/GxAqv1bM"},
+   {n:"廣安木燒肉",note:"烤好上桌不踩雷，生菜無限續",hrs:"11:30–22:00",c:"#D4537E",map:"https://naver.me/xQ3qFOcO"},
+   {n:"상국이네（白鐘元打卡）",note:"年糕+魚板餅，超在地，海雲台市場內",hrs:"10:00–21:00",c:"#D4537E",map:"https://naver.me/xuFUGz3G"},
+   {n:"嚴湧帛 豬肉湯飯",note:"24小時！70年老店，早餐宵夜都適合",hrs:"24小時",c:"#D4537E",map:"https://naver.me/FGgVhicc"},
+   {n:"巨大牛肉湯飯",note:"份量超大！2人只點1份，白湯牛肉無腥味",hrs:"09:00–22:00",c:"#D4537E",map:"https://naver.me/G4cPLbQP"},
+  ]}
+]},
+{e:"🚋",l:"Day 2",d:"5/14 四",thm:"東北線全攻略",desc:"龍宮寺 → 鹽麵包 → 膠囊列車 → 青沙浦",bg:"#E1F5EE",tc:"#04342C",sc:"#0F6E56",
+stops:[
+ {t:"08:30",ico:"⛩",ib:"#E1F5EE",nm:"海東龍宮寺",note:"計程車25分 ₩22,000。早去人少光線好，免費入場。",tags:[{l:"09:00–18:00",c:"hours"},{l:"免費",c:"free"}],map:"https://naver.me/FfHWRBH0"},
+ {t:"10:30",ico:"🍞",ib:"#FAEEDA",nm:"自然道鹽麵包（달맞이길）",note:"四個一包不能單買。必吃！",tags:[{l:"09:00–20:00",c:"hours"},{l:"必吃",c:"must"}],map:"https://naver.me/G5x9GCXQ"},
+ {t:"11:20",ico:"🚠",ib:"#EEEDFE",nm:"Blue Line Park 膠囊列車",note:"Mipo→青沙浦，海景在右邊！5月 09:00–19:30。15:30-16:00光線最美，提前1個月訂票！",tags:[{l:"09:00–19:30",c:"hours"},{l:"需提前訂票",c:"book"}],map:"https://naver.me/IjXd5Joc"},
+ {t:"12:15",ico:"📸",ib:"#E1F5EE",nm:"青沙浦打卡三點",note:"①倉庫等列車同框 ②紅色燈塔+藍綠海水 ③釜山小鎌倉巷弄",tags:[{l:"拍照",c:"tip"}]},
+ {t:"12:45",ico:"🍲",ib:"#FAECE7",nm:"午餐",note:"點擊展開所有選項",tags:[{l:"4選1",c:"must"}],
+  choices:[
+   {n:"松林家（청사포 屋頂）",note:"海鮮火鍋+鮑魚粥，屋頂海景。12:30前到避尖峰，建議預約。",hrs:"11:00–21:00",c:"#1D9E75",map:"https://naver.me/FGpABDW1"},
+   {n:"31cm 海鮮刀削麵",note:"湯頭超鮮！泡菜超辣注意。旁邊糖餅攤必買。",hrs:"11:00–21:00",c:"#1D9E75",map:"https://naver.me/G1rRbgRq"},
+   {n:"Brony（브로니）",note:"咖啡+海鮮拉麵，1-3F，海景位置",hrs:"10:00–22:00",c:"#1D9E75",map:"https://naver.me/F9VvXzYv"},
+   {n:"신사꽃게당 新沙花蟹堂",note:"花蟹料理，在地人愛去",hrs:"11:00–22:00",c:"#1D9E75",map:"https://naver.me/xMXzZSxM"},
+  ]},
+ {t:"14:00",ico:"☕",ib:"#E1F5EE",nm:"青沙浦咖啡廳",note:"點擊展開所有選項",tags:[{l:"4選1",c:"must"}],
+  choices:[
+   {n:"DIART Coffee（디아트카미）",note:"土耳其奶油Kaymak恰巴塔配蜂蜜，超必吃！",hrs:"09:00–21:00",c:"#1D9E75",map:"https://naver.me/FFrRtlsN"},
+   {n:"Sandy Blue",note:"海邊位置，吹風看海",hrs:"10:00–22:00",c:"#1D9E75",map:"https://naver.me/5c3Qp1mP"},
+   {n:"PEAK",note:"甜點+海景打卡",hrs:"10:00–21:00",c:"#1D9E75"},
+   {n:"Haviung Moment",note:"青沙浦海景咖啡廳",hrs:"10:00–21:00",c:"#1D9E75"},
+  ]},
+ {t:"17:00",ico:"🥩",ib:"#FAECE7",nm:"晚餐",note:"點擊展開所有選項",tags:[{l:"3選1",c:"must"}],
+  choices:[
+   {n:"熟成道",note:"熟成五花肉烤肉，17:00早鳥入座，強烈建議預約！",hrs:"17:00–24:00",c:"#D4537E",map:"https://naver.me/G3QdXWFh"},
+   {n:"明星一隻雞（명성닭한마리）",note:"整鍋吃光！記得加刀削麵和雞蛋粥",hrs:"11:00–24:00",c:"#D4537E",map:"https://naver.me/5lnVLCsc"},
+   {n:"83 Haechi（如果Day1沒去）",note:"豬頸肉+炒飯，Catch Table候位",hrs:"15:30–01:00",c:"#D4537E",map:"https://naver.me/GxAqv1bM"},
+  ]},
+]},
+{e:"🎨",l:"Day 3",d:"5/15 五",thm:"文化村+南浦洞",desc:"廣安里 → 甘川洞 → 白淺灘 → 南浦洞",bg:"#FAEEDA",tc:"#633806",sc:"#854F0B",
+stops:[
+ {t:"09:00",ico:"🍳",ib:"#FAEEDA",nm:"廣安里早午餐",note:"點擊展開所有選項",tags:[{l:"3選1",c:"must"}],
+  choices:[
+   {n:"워킹홀리데이",note:"廣安大橋窗邊海景早午餐，早去等位短",hrs:"09:00–21:00",c:"#D4537E",map:"https://naver.me/G5cRhMaH"},
+   {n:"全牛解酒湯（바로해장）",note:"09:00開門！牛肉多到爆，復古裝潢好拍",hrs:"09:00–22:00",c:"#D4537E",map:"https://naver.me/xRCMuTdC"},
+   {n:"扎嘎其市場 85/87號攤",note:"在地老闆，台灣人送生蠔扇貝！帝王蟹、生章魚",hrs:"08:00–19:00",c:"#D4537E"},
+  ]},
+ {t:"10:30",ico:"🎨",ib:"#FAEEDA",nm:"甘川洞文化村",note:"彩色階梯村，電動小車可搭。只走下半段平坦區就夠拍。",tags:[{l:"09:00–18:00",c:"hours"},{l:"拍照",c:"tip"}],map:"https://naver.me/G0oL3wEN"},
+ {t:"13:00",ico:"🌊",ib:"#E1F5EE",nm:"白淺灘文化村",note:"崖邊窄巷海景超美！必拍「I」「L」柱子。計程車17分 ₩14,000。",tags:[{l:"全天開放",c:"free"},{l:"拍照",c:"tip"}],map:"https://naver.me/5mtQeQrv"},
+ {t:"14:30",ico:"☕",ib:"#EEEDFE",nm:"白淺灘咖啡廳",note:"點擊展開所有選項",tags:[{l:"3選1",c:"must"}],
+  choices:[
+   {n:"Foot Bath Cafe View",note:"足浴+肩頸按摩+飲料30分，₩16,000/人。日落時段超推！",hrs:"11:00–21:00",c:"#534AB7",map:"https://naver.me/xCKqRH4n"},
+   {n:"Main Café",note:"海景咖啡廳，5月偶有櫻花",hrs:"10:00–21:00",c:"#534AB7"},
+   {n:"RYUIS咖啡廳（南浦洞）",note:"南浦洞鬧區5樓，咖啡甜點都驚艷",hrs:"11:00–22:00",c:"#534AB7",map:"https://naver.me/xHDJFv0r"},
+  ]},
+ {t:"15:30",ico:"🛍",ib:"#FAEEDA",nm:"南浦洞 — 樂天百貨光復店",note:"屋頂花園拍釜山港，購物+富平罐頭市場小吃",tags:[{l:"10:30–20:00",c:"hours"}],map:"https://naver.me/Fy3bIDsB"},
+ {t:"17:30",ico:"🍜",ib:"#FAECE7",nm:"晚餐",note:"點擊展開所有選項",tags:[{l:"5選1",c:"must"}],
+  choices:[
+   {n:"나가리 식당（Nasari Sigdang）",note:"廣安大橋海景！海鮮麵。광안로61번길60，3F。建議預約。",hrs:"11:30–21:00",c:"#D4537E",map:"https://naver.me/G4aVAVsQ"},
+   {n:"明星一隻雞",note:"整鍋吃光再加刀削麵+雞蛋粥",hrs:"11:00–24:00",c:"#D4537E",map:"https://naver.me/5lnVLCsc"},
+   {n:"水邊最高豬肉湯飯",note:"廣安海邊步行可達",hrs:"09:00–22:00",c:"#D4537E",map:"https://naver.me/G4cPLbQP"},
+   {n:"부산댁 釜山宅烤肉",note:"광안里，南天바다길33번길47 2F",hrs:"16:00–24:00",c:"#D4537E"},
+   {n:"西面 포항돼지국밥",note:"70年老店豬肉湯飯，24小時",hrs:"24小時",c:"#D4537E"},
+  ]},
+]},
+{e:"✈",l:"Day 4",d:"5/16 六",thm:"購物→飛濟州",desc:"西面地下街 → 田浦咖啡街 → Outlet → 飛濟州",bg:"#EEEDFE",tc:"#26215C",sc:"#534AB7",
+stops:[
+ {t:"09:00",ico:"👗",ib:"#EEEDFE",nm:"西面地下街",note:"平價韓系服飾飾品，早去人少好逛",tags:[{l:"10:00–22:00",c:"hours"}],map:"https://naver.me/G4Js8Zet"},
+ {t:"10:00",ico:"☕",ib:"#E1F5EE",nm:"田浦咖啡街（전포카페거리）",note:"獨立咖啡廳散步。adorment bakeshop 小兔子布丁必拍必買！",tags:[{l:"各店10:00起",c:"hours"},{l:"必買",c:"must"}],map:"https://naver.me/FjDzHF9I"},
+ {t:"12:00",ico:"🏠",ib:"#F4C0D1",nm:"Check-out + 前往 Outlet",note:"密碼 0406*，帶齊行李。計程車 ₩23,000 約40分",tags:[]},
+ {t:"13:00",ico:"🛍",ib:"#FAEEDA",nm:"롯데 프리미엄 아울렛 김해",note:"購物+Food Court午餐，離機場10-15分",tags:[{l:"10:30–20:00",c:"hours"}],map:"https://naver.me/5k1AeLFC"},
+ {t:"15:30",ico:"✈",ib:"#E6F1FB",nm:"金海國際機場",note:"計程車10-15分 ₩8,000，提前1.5小時到",tags:[]},
+ {t:"17:00",ico:"🛫",ib:"#EEEDFE",nm:"7C511 釜山→濟州",note:"訂位碼 HF1FYN。抵達後取租車，Type-C轉USB接頭用Naver Map！",tags:[{l:"HF1FYN",c:"book"}]},
+ {t:"19:30",ico:"🍖",ib:"#FAECE7",nm:"抵達濟州第一餐",note:"點擊展開所有選項",tags:[{l:"3選1",c:"must"}],
+  choices:[
+   {n:"熟成道（濟州店）",note:"黑毛豬烤肉，濟州必吃！",hrs:"17:00–24:00",c:"#D4537E",map:"https://naver.me/GEfqDVjN"},
+   {n:"東門市場夜市",note:"橘子糖葫蘆、糖餅、橘子汁，順路掃伴手禮",hrs:"08:00–22:00",c:"#D4537E",map:"https://naver.me/5p0e8jnR"},
+   {n:"EggDrop（機場店）",note:"方便快速，下飛機直接吃",hrs:"08:00–21:00",c:"#D4537E"},
+  ]},
+]},
+{e:"🏝",l:"Day 5",d:"5/17 日",thm:"濟州東線",desc:"城山日出峰 → 牛島一日遊 → 橘子園",bg:"#E1F5EE",tc:"#04342C",sc:"#0F6E56",
+stops:[
+ {t:"07:30",ico:"🌄",ib:"#FAEEDA",nm:"城山日出峰",note:"自駕1小時15分。早去人少光線好！5月 04:30-20:00，登頂約20分。門票₩2,000。",tags:[{l:"04:30–20:00",c:"hours"},{l:"必去",c:"must"}],map:"https://naver.me/FzJJFNeV"},
+ {t:"10:00",ico:"⛴",ib:"#E1F5EE",nm:"城山港 → 牛島",note:"渡輪15分。島上租電動車₩30,000/台現金。國際駕照A+B都要蓋章！天氣不好不開船。",tags:[{l:"07:00–18:00",c:"hours"},{l:"帶國際駕照+現金",c:"book"}],map:"https://naver.me/G8H2L6fO"},
+ {t:"10:30",ico:"🥜",ib:"#FAEEDA",nm:"牛島環島",note:"①西濱白沙（祖母綠海水）②牛島峰頂俯瞰 ③Udo Sand花生冰淇淋必吃 ④Hahahoho漢堡需等 ⑤選物店Udoi",tags:[{l:"花生冰淇淋必吃",c:"must"}]},
+ {t:"13:30",ico:"🦀",ib:"#E1F5EE",nm:"午餐",note:"點擊展開所有選項",tags:[{l:"4選1",c:"must"}],
+  choices:[
+   {n:"海女包飯（해녀의집）城山",note:"海膽飯、鮑魚、海女拼盤，超新鮮！週日確認有無休息。",hrs:"08:00–18:00",c:"#1D9E75",map:"https://naver.me/GdFdGJH5"},
+   {n:"明珍鮑魚（명진전복）",note:"奶油鮑魚必吃，店家還送烤魚！",hrs:"08:00–20:00",c:"#1D9E75",map:"https://naver.me/xXfHLNtf"},
+   {n:"Udo Haenyeo Sikdang（牛島）",note:"牛島上刀切麵，海鮮豐富，海螺肉好吃",hrs:"09:00–18:00",c:"#1D9E75"},
+   {n:"피갈회옥（Jeju Sashimi Ok）",note:"金相昊大推海鮮餐廳",hrs:"11:00–22:00",c:"#1D9E75",map:"https://naver.me/FBVQNFJo"},
+  ]},
+ {t:"15:00",ico:"🍊",ib:"#FAEEDA",nm:"橘子園體驗（감귤 따기）",note:"南元/西歸浦一帶，₩10,000/人，親手摘橘子帶走一袋！",tags:[{l:"09:00–17:00",c:"hours"},{l:"必體驗",c:"must"}]},
+ {t:"17:30",ico:"☕",ib:"#E1F5EE",nm:"涯月海岸線咖啡廳",note:"點擊展開所有選項",tags:[{l:"4選1",c:"must"}],
+  choices:[
+   {n:"온전한하루",note:"落地窗海景，超療癒",hrs:"10:00–21:00",c:"#1D9E75",map:"https://naver.me/FiVOPTBW"},
+   {n:"Cafe Monsant（몬상）",note:"海景玻璃屋，涯月最多人打卡",hrs:"10:00–21:00",c:"#1D9E75",map:"https://naver.me/xWCBMXVL"},
+   {n:"Cafe Bora 涯月",note:"抹茶系甜點打卡",hrs:"10:00–21:00",c:"#1D9E75"},
+   {n:"Haejigae Cafe",note:"眼前就是海，甜點不錯，風挺大",hrs:"10:00–22:00",c:"#1D9E75",map:"https://naver.me/5bHyNBr8"},
+  ]},
+ {t:"19:30",ico:"🐷",ib:"#FAECE7",nm:"晚餐",note:"點擊展開所有選項",tags:[{l:"3選1",c:"must"}],
+  choices:[
+   {n:"濟州黑豬肉烤肉（涯月）",note:"涯月市區黑豬肉專門店",hrs:"17:00–23:00",c:"#D4537E"},
+   {n:"Noraba 海鮮拉麵",note:"開門前就很多人候位，海鮮豐富",hrs:"11:00–21:00",c:"#D4537E",map:"https://naver.me/FHNkWOvA"},
+   {n:"Puradak 炸雞（IU代言）",note:"號稱炸雞界LV，可用外送民族App點",hrs:"16:00–23:00",c:"#D4537E"},
+  ]},
+]},
+{e:"🏖",l:"Day 6",d:"5/18 一",thm:"西線輕鬆日",desc:"協才海灘 → 翰林公園 → 涯月夕陽",bg:"#F4C0D1",tc:"#4B1528",sc:"#72243E",
+stops:[
+ {t:"09:00",ico:"☕",ib:"#FBEAF0",nm:"涯月早餐咖啡廳",note:"點擊展開所有選項",tags:[{l:"4選1",c:"must"}],
+  choices:[
+   {n:"Cafe Monsant（몬상）",note:"海景玻璃屋，涯月最多人打卡",hrs:"10:00–21:00",c:"#D4537E",map:"https://naver.me/xWCBMXVL"},
+   {n:"Jejudang Bakery Café",note:"裝潢特別，麵包好吃，戶外景色讚！大推！",hrs:"09:00–20:00",c:"#D4537E",map:"https://naver.me/5x6f9YBf"},
+   {n:"Audrant Bakery",note:"大蒜麵包必吃！兩人吃一個剛好",hrs:"09:00–18:00",c:"#D4537E"},
+   {n:"Osulloc Tea House 涯月",note:"抹茶系甜點",hrs:"09:00–19:00",c:"#D4537E",map:"https://naver.me/GHNlFJTQ"},
+  ]},
+ {t:"10:30",ico:"🌊",ib:"#E1F5EE",nm:"協才海灘（협재해수욕장）",note:"透明祖母綠海水，遠眺飛揚島。5月拍照超美！",tags:[{l:"全天開放",c:"free"},{l:"拍照",c:"tip"}],map:"https://naver.me/5s5ht2nO"},
+ {t:"11:15",ico:"🏄",ib:"#E1F5EE",nm:"金陵海灘（금능해수욕장）",note:"協才旁3分鐘，人更少更安靜，沙灘拍照更好看",tags:[{l:"全天開放",c:"free"},{l:"拍照",c:"tip"}],map:"https://naver.me/G4Bun6q0"},
+ {t:"12:30",ico:"🍜",ib:"#FAECE7",nm:"翰林午餐",note:"點擊展開所有選項",tags:[{l:"3選1",c:"must"}],
+  choices:[
+   {n:"姐妹麵條（자매국수）",note:"豬肉湯麵，在地人愛去，超便宜",hrs:"07:00–15:00",c:"#D4537E"},
+   {n:"翰林刀削麵（칼국수）",note:"清淡好吃",hrs:"10:00–21:00",c:"#D4537E"},
+   {n:"黑豬肉定食",note:"翰林市區午餐套餐",hrs:"11:00–21:00",c:"#D4537E"},
+  ]},
+ {t:"14:00",ico:"🌿",ib:"#E1F5EE",nm:"翰林公園（한림공원）",note:"熱帶植物+熔岩洞窟，₩12,000。雨天備案最佳！",tags:[{l:"09:00–18:00",c:"hours"},{l:"雨天備案",c:"tip"}],map:"https://naver.me/FIv1Z4V1"},
+ {t:"15:30",ico:"☕",ib:"#FBEAF0",nm:"涯月下午咖啡廳",note:"點擊展開所有選項",tags:[{l:"4選1",c:"must"}],
+  choices:[
+   {n:"Be Brave Innovation City",note:"號稱濟州第一名咖啡！必點Rocher",hrs:"10:00–21:00",c:"#D4537E",map:"https://naver.me/G5x7PGPD"},
+   {n:"Fritz Coffee 濟州",note:"韓國精品咖啡名店",hrs:"09:00–20:00",c:"#D4537E"},
+   {n:"Mandarin Island 香水店",note:"濟州限定5種香水，50ml約台幣500",hrs:"10:00–21:00",c:"#D4537E",map:"https://naver.me/GxAHVfGB"},
+   {n:"The Islander",note:"濟州限定小香水每個台幣200，適合送人",hrs:"10:00–21:00",c:"#D4537E"},
+  ]},
+ {t:"17:30",ico:"🌅",ib:"#FAEEDA",nm:"涯月海岸夕陽（애월해안로）",note:"開車慢慢逛海岸公路，找個點停下來看夕陽拍照",tags:[{l:"拍照",c:"tip"}]},
+ {t:"19:00",ico:"🥩",ib:"#FAECE7",nm:"晚餐",note:"點擊展開所有選項",tags:[{l:"4選1",c:"must"}],
+  choices:[
+   {n:"明浩韓牛（명호한우）",note:"韓牛好吃，偏貴，特別場合推薦",hrs:"11:00–22:00",c:"#D4537E",map:"https://naver.me/FGr5Hwzd"},
+   {n:"Heukdonga（흑동아）",note:"黑豬肉專門店",hrs:"11:00–22:00",c:"#D4537E"},
+   {n:"滿足的商會",note:"白帶魚超嫩必吃！醬蟹偏苦不推。",hrs:"11:00–21:00",c:"#D4537E",map:"https://naver.me/5aV4LJZt"},
+   {n:"Noraba（如果Day5沒去）",note:"海鮮拉麵，開門前就在排隊",hrs:"11:00–21:00",c:"#D4537E",map:"https://naver.me/FHNkWOvA"},
+  ]},
+]},
+{e:"🍵",l:"Day 7",d:"5/19 二",thm:"茶園+回台",desc:"O'sulloc茶園 → 東門市場 → 22:15飛回",bg:"#EAF3DE",tc:"#173404",sc:"#3B6D11",
+stops:[
+ {t:"09:00",ico:"☕",ib:"#FBEAF0",nm:"涯月早午餐",note:"點擊展開所有選項",tags:[{l:"3選1",c:"must"}],
+  choices:[
+   {n:"Gamttanam 橘子咖啡廳",note:"開放式空間，造景超多，停路邊即可",hrs:"10:00–21:00",c:"#D4537E",map:"https://naver.me/GBj3Sezl"},
+   {n:"Cafe Tangerine Flower Attic",note:"滿滿網美，橘子果凍特別，有停車場",hrs:"10:00–21:00",c:"#D4537E",map:"https://naver.me/xG3XU8d5"},
+   {n:"橘花閣樓",note:"滿滿橘子元素，西歸浦方向",hrs:"10:00–20:00",c:"#D4537E"},
+  ]},
+ {t:"11:00",ico:"🍵",ib:"#EAF3DE",nm:"O'sulloc Tea Museum",note:"綠色茶田免費打卡！抹茶冰淇淋必買。5月 09:00-19:00。距涯月約30-50分。",tags:[{l:"09:00–19:00（5月）",c:"hours"},{l:"免費入場",c:"free"},{l:"必去",c:"must"}],map:"https://naver.me/xDe01T2j"},
+ {t:"13:00",ico:"🐟",ib:"#FAECE7",nm:"最後午餐",note:"點擊展開所有選項",tags:[{l:"4選1",c:"must"}],
+  choices:[
+   {n:"西歸浦每日偶來市場",note:"老奶奶橘子/草莓麻糬，很Q多汁！",hrs:"09:00–19:00",c:"#D4537E",map:"https://naver.me/FKzRH6sW"},
+   {n:"피갈회옥（Jeju Sashimi Ok）",note:"金相昊大推海鮮餐廳",hrs:"11:00–22:00",c:"#D4537E",map:"https://naver.me/FBVQNFJo"},
+   {n:"Unidam（海膽飯）",note:"海膽飯、鰻魚飯，覺得偏普通",hrs:"11:00–21:00",c:"#D4537E"},
+   {n:"姐妹麵條（早起的話）",note:"07:00開門，豬肉湯麵超便宜",hrs:"07:00–15:00",c:"#D4537E"},
+  ]},
+ {t:"14:30",ico:"🍊",ib:"#FAEEDA",nm:"東門傳統市場 — 掃伴手禮",note:"橘子巧克力、Mochiron達克瓦茲、Solbre冰淇淋可頌、UMU布丁、水果大福、現榨橘子汁",tags:[{l:"08:00–22:00",c:"hours"},{l:"伴手禮",c:"tip"}],map:"https://naver.me/xEiOp9tC"},
+ {t:"15:30",ico:"🧴",ib:"#EEEDFE",nm:"限定香水 / 伴手禮",note:"點擊展開所有選項",tags:[{l:"3選1",c:"must"}],
+  choices:[
+   {n:"Mandarin Island 香水",note:"濟州限定5種，Azure Aewol最熱門，50ml約台幣500",hrs:"10:00–21:00",c:"#534AB7",map:"https://naver.me/GxAHVfGB"},
+   {n:"The Islander",note:"小香水每個台幣200，超適合送人",hrs:"10:00–21:00",c:"#534AB7"},
+   {n:"Mochiron（新羅免稅店1F）",note:"達克瓦茲，拍照好看又意外好吃",hrs:"10:00–21:00",c:"#534AB7"},
+  ]},
+ {t:"17:00",ico:"🚗",ib:"#E6F1FB",nm:"前往濟州機場還車",note:"市區→機場15-20分，建議提前2小時到",tags:[]},
+ {t:"22:15",ico:"✈",ib:"#EEEDFE",nm:"LJ763 濟州→台灣桃園",note:"訂位碼 WPB7L5，22:15→00:15+1。機場最後伴手禮！",tags:[{l:"WPB7L5",c:"book"}]},
+]},
+];
+
+const TODO_DATA=[
+ {s:"🎫 需提前預訂",items:[
+  {t:"Blue Line Park 膠囊列車",sub:"提前1個月，官網 bluelinepark.com"},
+  {t:"松林家 青沙浦屋頂",sub:"Naver 예약 或直接電話"},
+  {t:"熟成道烤肉",sub:"Naver 예약，強烈建議"},
+  {t:"나가리식당",sub:"Naver 예약"},
+  {t:"Foot Bath Cafe View",sub:"可現場預約時段"},
+  {t:"濟州租車",sub:"Lotte/SK Rent-a-Car，提前訂最便宜"},
+  {t:"濟州涯月住宿",sub:"Airbnb/Booking.com"},
+ ]},
+ {s:"📱 出發前下載 App",items:[
+  {t:"Naver Map",sub:"韓國導航，比Google準確"},
+  {t:"Kakao T",sub:"叫計程車，出國前先註冊"},
+  {t:"Catch Table",sub:"83 Haechi 等熱門餐廳遠端候位"},
+  {t:"Papago",sub:"即時翻譯，鏡頭對韓文直接翻"},
+  {t:"T Locker",sub:"地圖找附近置物櫃"},
+  {t:"外送民族",sub:"濟州點外送用"},
+ ]},
+ {s:"🧾 證件 & 物品",items:[
+  {t:"護照（2本）",sub:"牛島渡輪、機場必帶"},
+  {t:"國際駕照（A+B都要蓋章）",sub:"牛島電動車、濟州租車必備"},
+  {t:"韓幣現金",sub:"牛島電動車₩30,000現金"},
+  {t:"Type-C轉USB轉接頭",sub:"租車CarPlay用Naver Map"},
+  {t:"防曬 SPF50+",sub:"5月陽光強"},
+  {t:"折疊雨傘",sub:"5月偶有陣雨"},
+ ]},
+ {s:"💳 省錢 & 折扣",items:[
+  {t:"Busan Pass Big5 考慮購買",sub:"Spa Land+纜車+Luge等免費"},
+  {t:"新世界百貨 3F 辦會員卡",sub:"95折+送折價券+飲料券"},
+  {t:"Klook 購買 Spa Land 票",sub:"比現場便宜"},
+  {t:"Spa Land 19:00後入場",sub:"40-50% 折扣！"},
+  {t:"Klook 購買 O'sulloc 組合券",sub:"抹茶冰淇淋+甜點更划算"},
+ ]},
+];
+
+const WEATHER_DATA=[
+ {d:"5/13",w:"⛅",t:"19°C",r:"15%",loc:"釜山"},
+ {d:"5/14",w:"☀",t:"20°C",r:"5%",loc:"釜山"},
+ {d:"5/15",w:"🌤",t:"21°C",r:"10%",loc:"釜山"},
+ {d:"5/16",w:"⛅",t:"19°C",r:"20%",loc:"釜山"},
+ {d:"5/17",w:"☀",t:"22°C",r:"5%",loc:"濟州"},
+ {d:"5/18",w:"🌦",t:"18°C",r:"40%",loc:"濟州"},
+ {d:"5/19",w:"☀",t:"20°C",r:"8%",loc:"濟州"},
+];
+
+const CAT_COLORS={
+ "餐廳":"#D4537E","咖啡廳":"#1D9E75","景點":"#378ADD",
+ "交通":"#888780","購物":"#BA7517","住宿":"#534AB7","其他":"#B4B2A9"
+};
+
+// ===== STATE =====
+let curDay=0;
+let selPayer_=1;
+let expenses=[];
+let picks={};
+let clState={};
+let notes={釜山:"",濟州:""};
+let exRate=42;
+
+// ===== LOCALSTORAGE =====
+function saveAll(){
+ try{
+  localStorage.setItem('tj_picks',JSON.stringify(picks));
+  localStorage.setItem('tj_cl',JSON.stringify(clState));
+  localStorage.setItem('tj_exp',JSON.stringify(expenses));
+  localStorage.setItem('tj_notes',JSON.stringify(notes));
+  localStorage.setItem('tj_rate',String(exRate));
+  localStorage.setItem('tj_day',String(curDay));
+ }catch(e){}
+}
+function loadAll(){
+ try{
+  const p=localStorage.getItem('tj_picks');if(p)picks=JSON.parse(p);
+  const c=localStorage.getItem('tj_cl');if(c)clState=JSON.parse(c);
+  const e=localStorage.getItem('tj_exp');if(e)expenses=JSON.parse(e);
+  const n=localStorage.getItem('tj_notes');if(n)notes=JSON.parse(n);
+  const r=localStorage.getItem('tj_rate');if(r)exRate=parseFloat(r);
+  const d=localStorage.getItem('tj_day');if(d)curDay=parseInt(d);
+ }catch(e){}
+}
+
+// ===== NAV =====
+function showView(id,btn){
+ document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+ document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));
+ document.getElementById('view-'+id).classList.add('on');
+ btn.classList.add('on');
+ window.scrollTo(0,0);
+}
+
+// ===== COUNTDOWN =====
+function updateCountdown(){
+ const now=new Date();
+ const diff=TRIP_START-now;
+ const label=document.getElementById('cd-label');
+ const num=document.getElementById('cd-num');
+ const sub=document.getElementById('cd-sub');
+ if(diff>0){
+  const days=Math.floor(diff/(1000*60*60*24));
+  const hrs=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  label.textContent='距離出發還有';
+  num.textContent=days+'天 '+hrs+'小時';
+  sub.textContent='2026/05/13 02:35 台灣桃園出發';
+ } else if(now<=TRIP_END){
+  const tripDay=Math.floor((now-TRIP_START)/(1000*60*60*24))+1;
+  label.textContent='現在是旅行';
+  num.textContent='第 '+Math.min(tripDay,7)+' 天 ✈';
+  sub.textContent='釜山 × 濟州島旅行中！';
+ } else {
+  label.textContent='旅行已結束';
+  num.textContent='美好的回憶 ♡';
+  sub.textContent='期待下一次旅行！';
+ }
+}
+
+// ===== WEATHER =====
+function buildWeather(){
+ const w=document.getElementById('weather-strip');
+ w.innerHTML=WEATHER_DATA.map(d=>`
+  <div class="wcard">
+   <div class="wd">${d.d}</div>
+   <div class="wi">${d.w}</div>
+   <div class="wt">${d.t}</div>
+   <div class="wr">${d.r}降雨</div>
+  </div>
+ `).join('');
+}
+
+// ===== ITINERARY =====
+const TAG_C={must:'tag-must',book:'tag-book',tip:'tag-tip',free:'tag-free',hours:'tag-hours'};
+function buildDayRow(){
+ const w=document.getElementById('day-scroll');
+ w.innerHTML=DAYS.map((d,i)=>`
+  <div class="dpill ${i===curDay?'on':''}" id="dp-${i}" onclick="selDay(${i})">
+   <div class="dp-e">${d.e}</div>
+   <div class="dp-n">${d.l}</div>
+   <div class="dp-d">${d.d}</div>
+  </div>
+ `).join('');
+}
+function selDay(i){
+ curDay=i;
+ saveAll();
+ document.querySelectorAll('.dpill').forEach((p,j)=>p.classList.toggle('on',j===i));
+ renderDay(i);
+}
+function renderDay(i){
+ const d=DAYS[i];
+ const done=d.stops.filter((_,si)=>picks[`${i}-${si}`]!==undefined).length;
+ const pct=Math.round(done/d.stops.length*100);
+ document.getElementById('dhero-wrap').innerHTML=`
+  <div class="dhero" style="background:${d.bg}">
+   <div class="dh-title" style="color:${d.tc}">${d.e} ${d.thm}</div>
+   <div class="dh-sub" style="color:${d.sc}">${d.desc}</div>
+   <div class="dh-progress">
+    <div class="dh-pbar"><div class="dh-pfill" style="width:${pct}%"></div></div>
+    <div class="dh-pnum" style="color:${d.tc}">${done}/${d.stops.length}</div>
+   </div>
+  </div>`;
+ const w=document.getElementById('stops-wrap');
+ w.innerHTML=d.stops.map((s,si)=>{
+  const key=`${i}-${si}`;
+  const hasC=s.choices&&s.choices.length>0;
+  const isOpen=hasC&&picks[key]!==undefined;
+  const tags=(s.tags||[]).map(t=>`<span class="tag ${TAG_C[t.c]||'tag-tip'}">${t.l}</span>`).join('');
+  const mapBtn=s.map?`<a class="mapbtn" href="${s.map}" target="_blank">📍 Naver Map</a>`:'';
+  let ch='';
+  if(hasC){
+   ch=`<div class="choices">
+    <div class="ch-lbl">現場選哪間？</div>
+    ${s.choices.map((c,ci)=>`
+     <div class="ch-item ${picks[key]===ci?'picked':''}" onclick="pickC(event,'${key}',${ci})">
+      <div class="ch-dot" style="background:${c.c}"></div>
+      <div class="ch-body">
+       <div class="ch-name">${c.n}</div>
+       <div class="ch-note">${c.note}</div>
+       ${c.hrs?`<div class="ch-hrs">⏰ ${c.hrs}</div>`:''}
+       ${c.map?`<a href="${c.map}" target="_blank" class="ch-map" onclick="event.stopPropagation()">📍 地圖</a>`:''}
+      </div>
+      <div class="ch-pick">✓</div>
+     </div>
+    `).join('')}
+   </div>`;
+  }
+  return `
+   <div class="sc ${hasC?'expandable':''} ${isOpen?'open':''}" id="sc-${key}" ${hasC?`onclick="toggleSC('${key}')"`:''}">
+    <div class="sc-row">
+     <div class="sc-ico" style="background:${s.ib}">${s.ico}</div>
+     <div class="sc-mid">
+      <div class="sc-time">${s.t}</div>
+      <div class="sc-name">${s.nm}</div>
+      <div class="sc-note">${s.note}</div>
+      <div class="sc-tags">${tags}</div>
+      ${mapBtn}
+     </div>
+     ${hasC?`<div class="sc-end"><div class="arr">▾</div></div>`:''}
+    </div>
+    ${ch}
+   </div>`;
+ }).join('');
+}
+function toggleSC(key){
+ document.getElementById('sc-'+key).classList.toggle('open');
+}
+function pickC(e,key,ci){
+ e.stopPropagation();
+ picks[key]=picks[key]===ci?undefined:ci;
+ saveAll();
+ renderDay(curDay);
+ const el=document.getElementById('sc-'+key);
+ if(el)el.classList.add('open');
+}
+
+// ===== EXCHANGE =====
+function calcExchange(){
+ exRate=parseFloat(document.getElementById('ex-rate').value)||42;
+ saveAll();
+ buildQuickBtns();
+}
+function fromTWD(){
+ const v=parseFloat(document.getElementById('ex-twd').value);
+ document.getElementById('ex-krw').value=isNaN(v)?'':Math.round(v*exRate);
+}
+function fromKRW(){
+ const v=parseFloat(document.getElementById('ex-krw').value);
+ document.getElementById('ex-twd').value=isNaN(v)?'':(v/exRate).toFixed(0);
+}
+function swapEx(){
+ const t=document.getElementById('ex-twd').value;
+ const k=document.getElementById('ex-krw').value;
+ document.getElementById('ex-twd').value=k?Math.round(parseFloat(k)/exRate):'';
+ document.getElementById('ex-krw').value=t?Math.round(parseFloat(t)*exRate):'';
+}
+function buildQuickBtns(){
+ const qs=[10000,30000,50000,100000];
+ document.getElementById('quick-btns').innerHTML=qs.map(q=>`
+  <div class="quick-btn" onclick="document.getElementById('ex-krw').value=${q};fromKRW()">
+   ₩${(q/1000).toFixed(0)}K<br><span style="font-size:9px;opacity:.7">≈NT$${Math.round(q/exRate)}</span>
+  </div>
+ `).join('');
+}
+
+// ===== EXPENSE =====
+function selPayer(n){
+ selPayer_=n;
+ document.getElementById('pb1').classList.toggle('on',n===1);
+ document.getElementById('pb2').classList.toggle('on',n===2);
+}
+function addExpense(){
+ const amt=parseInt(document.getElementById('exp-amount').value);
+ const note=document.getElementById('exp-note').value.trim();
+ const cat=document.getElementById('exp-cat').value;
+ if(!amt||amt<=0){document.getElementById('exp-amount').focus();return;}
+ expenses.push({id:Date.now(),amt,note:note||cat,cat,payer:selPayer_,date:new Date().toLocaleDateString('zh-TW',{month:'numeric',day:'numeric'})});
+ document.getElementById('exp-amount').value='';
+ document.getElementById('exp-note').value='';
+ saveAll();
+ renderExpenses();
+}
+function delExpense(id){
+ expenses=expenses.filter(e=>e.id!==id);
+ saveAll();
+ renderExpenses();
+}
+function renderExpenses(){
+ const total=expenses.reduce((s,e)=>s+e.amt,0);
+ const p1=expenses.filter(e=>e.payer===1).reduce((s,e)=>s+e.amt,0);
+ const p2=expenses.filter(e=>e.payer===2).reduce((s,e)=>s+e.amt,0);
+ document.getElementById('total-val').textContent='₩'+total.toLocaleString();
+ document.getElementById('total-twd').textContent='≈ NT$'+Math.round(total/exRate).toLocaleString();
+ document.getElementById('p1-val').textContent='₩'+p1.toLocaleString();
+ document.getElementById('p2-val').textContent='₩'+p2.toLocaleString();
+ const diff=p1-p2;
+ const sv=document.getElementById('settle-val');
+ if(expenses.length===0){sv.textContent='尚無記錄';}
+ else if(Math.abs(diff)<100){sv.textContent='兩人平衡！不需還款 🎉';}
+ else if(diff>0){sv.textContent=`人B 需還人A ₩${Math.abs(diff).toLocaleString()}`;}
+ else{sv.textContent=`人A 需還人B ₩${Math.abs(diff).toLocaleString()}`;}
+ // cat chart
+ const cats={};
+ expenses.forEach(e=>{cats[e.cat]=(cats[e.cat]||0)+e.amt;});
+ const maxCat=Math.max(...Object.values(cats),1);
+ document.getElementById('cat-chart').innerHTML=Object.entries(cats).length===0?
+  '<div style="font-size:12px;color:var(--text3);text-align:center;padding:8px">尚無記錄</div>':
+  Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([cat,amt])=>`
+   <div class="cat-row">
+    <div class="cat-label">${cat}</div>
+    <div class="cat-bar-wrap"><div class="cat-bar" style="width:${Math.round(amt/maxCat*100)}%;background:${CAT_COLORS[cat]||'#888'}"></div></div>
+    <div class="cat-amt">₩${(amt/1000).toFixed(0)}K</div>
+   </div>
+  `).join('');
+ // list
+ const list=document.getElementById('exp-list');
+ list.innerHTML=expenses.length===0?
+  '<div class="empty">還沒有記錄<br>新增第一筆費用吧！</div>':
+  [...expenses].reverse().map(e=>`
+   <div class="exp-item">
+    <div class="exp-cat-dot" style="background:${CAT_COLORS[e.cat]||'#888'}"></div>
+    <div class="exp-info">
+     <div class="exp-name">${e.note}</div>
+     <div class="exp-meta">${e.date} · ${e.cat} · <span class="exp-payer" style="background:${e.payer===1?'#FBEAF0':'#E1F5EE'};color:${e.payer===1?'#72243E':'#04342C'}">人${e.payer===1?'A':'B'}</span></div>
+    </div>
+    <div>
+     <div class="exp-amount">₩${e.amt.toLocaleString()}</div>
+     <div style="font-size:10px;color:var(--text3);text-align:right">≈NT$${Math.round(e.amt/exRate)}</div>
+    </div>
+    <button class="del-btn" onclick="delExpense(${e.id})">✕</button>
+   </div>
+  `).join('');
+}
+
+// ===== CHECKLIST =====
+function buildTodo(){
+ const w=document.getElementById('todo-wrap');
+ w.innerHTML=TODO_DATA.map((sec,si)=>`
+  <div class="sec">${sec.s}</div>
+  ${sec.items.map((item,ii)=>{
+   const key=`${si}-${ii}`;
+   const done=!!clState[key];
+   return `<div class="cl-item ${done?'done':''}" id="cl-${key}" onclick="toggleCl('${key}')">
+    <div class="chkbox"><span class="chkmark">✓</span></div>
+    <div><div class="cl-text">${item.t}</div><div class="cl-sub">${item.sub}</div></div>
+   </div>`;
+  }).join('')}
+ `).join('');
+ updateCheckProgress();
+}
+function toggleCl(key){
+ clState[key]=!clState[key];
+ const el=document.getElementById('cl-'+key);
+ el.classList.toggle('done',clState[key]);
+ saveAll();
+ updateCheckProgress();
+}
+function updateCheckProgress(){
+ const total=TODO_DATA.reduce((s,sec)=>s+sec.items.length,0);
+ const done=Object.values(clState).filter(Boolean).length;
+ const el=document.getElementById('check-progress-text');
+ if(el)el.textContent=`已完成 ${done} / ${total} 項`;
+}
+
+// ===== INIT =====
+loadAll();
+updateCountdown();
+setInterval(updateCountdown,60000);
+buildWeather();
+buildDayRow();
+renderDay(curDay);
+buildQuickBtns();
+document.getElementById('ex-rate').value=exRate;
+renderExpenses();
+buildTodo();
+
+// restore notes
+document.querySelectorAll('.note-area').forEach(ta=>{
+ const k=ta.id;
+ if(notes[k])ta.value=notes[k];
+ ta.addEventListener('input',()=>{notes[ta.id]=ta.value;saveAll();});
+});
+</script>
+<script>if("serviceWorker"in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+</body>
+</html>
