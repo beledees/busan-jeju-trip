@@ -1,5 +1,10 @@
 const CACHE = 'busan-jeju-v1';
-const ASSETS = ['/', '/index.html', '/manifest.json'];
+const ASSETS = [
+  '/busan-jeju-trip/',
+  '/busan-jeju-trip/index.html',
+  '/busan-jeju-trip/manifest.json',
+  '/busan-jeju-trip/sw.js'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(
