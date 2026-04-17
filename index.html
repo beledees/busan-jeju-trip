@@ -6,15 +6,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>
-// 自動移除所有 Service Worker，確保每次都讀最新版
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.getRegistrations().then(regs=>{
-    regs.forEach(r=>r.unregister());
-  });
-}
-if('caches' in window){
-  caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
-}
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(regs=>{regs.forEach(r=>r.unregister());});}
+if('caches' in window){caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));}
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#D4537E">
@@ -22,7 +15,6 @@ if('caches' in window){
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="釜山濟州">
 <link rel="manifest" href="manifest.json">
-
 <title>釜山 × 濟州島 2026</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -377,36 +369,29 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
       <div class="quick-btns" id="quick-btns"></div>
     </div>
 
-    <!-- Summary -->
-    <div class="sec">消費總覽</div>
-    <div class="exp-summary">
-      <div class="exp-card total">
-        <div class="exp-lbl">旅遊總消費</div>
-        <div class="exp-val" id="total-val">₩0</div>
-        <div class="exp-sub" id="total-twd">≈ NT$0</div>
-      </div>
-      <div class="exp-card">
-        <div class="exp-lbl" id="p1-lbl">人A 付出</div>
-        <div class="exp-val" id="p1-val">₩0</div>
-      </div>
-      <div class="exp-card">
-        <div class="exp-lbl" id="p2-lbl">人B 付出</div>
-        <div class="exp-val" id="p2-val">₩0</div>
-      </div>
+    <!-- Members -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:16px 0 8px">
+      <span style="font-size:10px;font-weight:800;color:#4a5980;letter-spacing:.08em;text-transform:uppercase">旅伴成員</span>
+      <button onclick="addMember()" style="background:#2A4D88;border:none;color:#fff;font-size:12px;font-weight:700;padding:5px 12px;border-radius:10px;cursor:pointer">＋ 新增成員</button>
     </div>
+    <div id="members-wrap" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px"></div>
+
+    <!-- Summary -->
+    <div style="font-size:10px;font-weight:800;color:#4a5980;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">消費總覽</div>
+    <div id="exp-summary-wrap" style="margin-bottom:10px"></div>
     <div class="settle-box" id="settle-box">
-      <div class="settle-lbl">AA結算</div>
-      <div class="settle-val" id="settle-val">尚無記錄</div>
+      <div class="settle-lbl">結算</div>
+      <div id="settle-val" style="font-size:14px;font-weight:700;color:#1e3a6e;margin-top:6px;line-height:1.8"></div>
     </div>
 
     <!-- Category chart -->
-    <div class="card mb8">
+    <div class="card" style="margin-bottom:10px">
       <div class="card-head"><div class="card-ico" style="background:#EAF3DE">📊</div><div><div class="card-title">消費類別</div></div></div>
       <div class="cat-chart" id="cat-chart"></div>
     </div>
 
     <!-- Add expense -->
-    <div class="sec">新增費用</div>
+    <div style="font-size:10px;font-weight:800;color:#4a5980;letter-spacing:.08em;text-transform:uppercase;margin:16px 0 8px">新增費用</div>
     <div class="add-exp-form">
       <div class="form-row">
         <div class="form-label">金額 ₩</div>
@@ -428,18 +413,25 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
           <option value="其他">📦 其他</option>
         </select>
       </div>
-      <div class="form-row">
-        <div class="form-label">付款人</div>
-        <div class="payer-row" style="flex:1">
-          <div class="payer-btn on" id="pb1" onclick="selPayer(1)">人A</div>
-          <div class="payer-btn" id="pb2" onclick="selPayer(2)">人B</div>
-        </div>
+      <!-- Payer -->
+      <div class="form-label" style="margin-bottom:6px">💳 付款人</div>
+      <div id="payer-btns" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px"></div>
+      <!-- Split type -->
+      <div class="form-label" style="margin-bottom:6px">分帳方式</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <div id="split-self" onclick="setSplitType('self')" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #2A4D88;background:#2A4D88;color:#fff;font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s">👤 自己消費</div>
+        <div id="split-share" onclick="setSplitType('share')" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #dde3f0;background:#EEF2F8;color:#4a5980;font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s">👥 選人平攤</div>
+      </div>
+      <!-- Share with whom -->
+      <div id="split-members-wrap" style="display:none;margin-bottom:14px">
+        <div class="form-label" style="margin-bottom:6px">平攤對象（勾選要平攤的人）</div>
+        <div id="split-member-btns" style="display:flex;flex-wrap:wrap;gap:6px"></div>
       </div>
       <button class="add-btn" onclick="addExpense()">＋ 新增這筆費用</button>
     </div>
 
     <!-- Expense list -->
-    <div class="sec">費用明細</div>
+    <div style="font-size:10px;font-weight:800;color:#4a5980;letter-spacing:.08em;text-transform:uppercase;margin:16px 0 8px">費用明細</div>
     <div class="exp-list" id="exp-list"></div>
     <div style="height:8px"></div>
   </div>
@@ -450,9 +442,22 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
   <div class="hero" style="padding-bottom:14px">
     <div class="hero-blob hero-blob1"></div>
     <div class="hero-title" style="font-size:20px">待辦清單</div>
-    <div class="hero-sub" id="check-progress-text">點擊項目勾選完成</div>
+    <div class="hero-sub" id="check-progress-text">點擊勾選，長按可編輯</div>
   </div>
-  <div class="content" style="padding-top:14px" id="todo-wrap"></div>
+  <div class="content" style="padding-top:14px">
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input id="todo-new-text" style="flex:1;border:1.5px solid #dde3f0;border-radius:12px;padding:10px 13px;font-size:14px;color:#1a2540;background:#fff;outline:none;font-family:inherit" placeholder="新增待辦事項...">
+      <select id="todo-new-cat" style="border:1.5px solid #dde3f0;border-radius:12px;padding:10px 10px;font-size:12px;color:#1a2540;background:#fff;outline:none;font-family:inherit;max-width:90px">
+        <option>🎫 預訂</option>
+        <option>📱 App</option>
+        <option>🧾 證件</option>
+        <option>💳 省錢</option>
+        <option>📝 其他</option>
+      </select>
+      <button onclick="addTodoItem()" style="background:#2A4D88;border:none;color:#fff;font-size:20px;width:44px;border-radius:12px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center">＋</button>
+    </div>
+    <div id="todo-wrap"></div>
+  </div>
 </div>
 
 <!-- ===== STAYS VIEW ===== -->
@@ -792,6 +797,7 @@ let notes={釜山:"",濟州:""};
 let exRate=42;
 
 // ===== LOCALSTORAGE =====
+function save(){return saveAll();}
 function saveAll(){
  try{
   localStorage.setItem('tj_picks',JSON.stringify(picks));
@@ -878,6 +884,7 @@ function selDay(i){
  document.querySelectorAll('.dpill').forEach((p,j)=>p.classList.toggle('on',j===i));
  renderDay(i);
 }
+const TRANSIT_DATA={"0-1": "🚕 計程車 45分・₩45,000", "0-2": "🚶 步行3分（同棟）", "0-3": "🚕 計程車 12分・₩9,000", "0-4": "🚶 步行5分", "0-5": "🚶 步行10分", "1-1": "🚕 計程車 25分・₩22,000", "1-2": "🚕 計程車 15分・₩13,000", "1-3": "🚶 步行5分", "1-4": "🚋 膠囊列車 25分（含票）", "1-5": "🚶 步行3分", "1-6": "🚶 步行5分", "1-7": "🚕 計程車 12分・₩10,000", "2-1": "🚕 計程車 12分・₩9,000 或 🚶步行25分", "2-2": "🚕 計程車 30分・₩27,000", "2-3": "🚕 計程車 17分・₩14,000", "2-4": "🚶 步行5分", "2-5": "🚕 計程車 12分・₩10,000", "2-6": "🚕 計程車 22分・₩19,000", "3-1": "🚇 地鐵 25分・₩1,500", "3-2": "🚶 步行10分", "3-3": "🚕 退房後計程車 40分・₩23,000", "3-4": "🚕 計程車 15分・₩8,000", "3-5": "🚶 步行（近）", "3-6": "🚶 機場內步行", "4-1": "🚗 自駕 1小時15分", "4-2": "🚶 步行5分", "4-3": "🛵 牛島上騎電動車", "4-4": "🚗 自駕 30分", "4-5": "🚗 自駕 50分", "4-6": "🚗 自駕 5分", "4-7": "🚗 自駕 5分", "5-1": "🚗 自駕 15分", "5-2": "🚗 自駕 3分", "5-3": "🚗 自駕 5分", "5-4": "🚗 自駕 40分", "5-5": "🚗 自駕 30分", "5-6": "🚗 自駕 5分", "5-7": "🚗 自駕 5分", "6-1": "🚗 自駕 20分", "6-2": "🚗 自駕 40分", "6-3": "🚗 自駕 20分", "6-4": "🚶 步行5分", "6-5": "🚗 自駕 15分", "6-6": "🚶 機場內步行"};
 function renderDay(i){
  const d=DAYS[i];
  const done=d.stops.filter((_,si)=>picks[`${i}-${si}`]!==undefined).length;
@@ -926,7 +933,7 @@ function renderDay(i){
    <div class="sc ${hasC?'expandable':''} ${isOpen?'open':''}" id="sc-${key}" data-dk="${key}" draggable="true" ondragstart="dS(event,'${key}')" ondragover="dO(event,'${key}')" ondrop="dDrop(event,'${key}')" ondragend="dE(event)" ontouchstart="tsS(event,'${key}')" ontouchmove="tsM(event)" ontouchend="tsE(event)" ${hasC?`onclick="toggleSC('${key}')"`:''}">
     <div class="sc-row">
      <span style="font-size:14px;color:#9aaac0;cursor:grab;padding:4px 2px;flex-shrink:0;user-select:none;touch-action:none" onclick="event.stopPropagation()">⋮⋮</span>
-     <div class="sc-ico" style="background:${s.ib}">${s.ico}</div>
+     <span draggable="true" ondragstart="dS(event,'${key}')" ondragover="dO(event,'${key}')" ondrop="dDrop(event,'${key}')" ondragend="dE(event)" ontouchstart="tsS(event,'${key}')" ontouchmove="tsM(event)" ontouchend="tsE(event)" onclick="event.stopPropagation()" style="font-size:14px;color:#9aaac0;cursor:grab;padding:4px 6px;flex-shrink:0;user-select:none;touch-action:none;-webkit-user-select:none">⋮⋮</span><div class="sc-ico" style="background:${s.ib}">${s.ico}</div>
      <div class="sc-mid">
       <div class="sc-time">${s.t}</div>
       <div class="sc-name">${s.nm}</div>
@@ -982,106 +989,396 @@ function buildQuickBtns(){
 }
 
 // ===== EXPENSE =====
-function selPayer(n){
- selPayer_=n;
- document.getElementById('pb1').classList.toggle('on',n===1);
- document.getElementById('pb2').classList.toggle('on',n===2);
+// members = [{id, name, color}]
+let members = [{id:1,name:'旅伴A',color:'#2A4D88'},{id:2,name:'旅伴B',color:'#1D9E75'}];
+let selPayerId = 1;
+let splitType = 'self'; // 'self' | 'share'
+let splitWith = new Set(); // member ids to split with
+
+const MEMBER_COLORS = ['#2A4D88','#1D9E75','#D4537E','#BA7517','#534AB7','#185FA5','#993C1D'];
+
+function saveMembersData(){
+  try{ localStorage.setItem('tj_members', JSON.stringify(members)); }catch(e){}
 }
+function loadMembersData(){
+  try{
+    const m = localStorage.getItem('tj_members');
+    if(m) members = JSON.parse(m);
+    selPayerId = members[0]?.id || 1;
+  }catch(e){}
+}
+
+function addMember(){
+  const name = prompt('輸入旅伴名稱（例：小明）');
+  if(!name?.trim()) return;
+  const id = Date.now();
+  const color = MEMBER_COLORS[members.length % MEMBER_COLORS.length];
+  members.push({id, name:name.trim(), color});
+  saveMembersData();
+  renderMembersList();
+  renderPayerBtns();
+  renderSplitBtns();
+}
+
+function editMemberName(id){
+  const m = members.find(x=>x.id===id);
+  if(!m) return;
+  const name = prompt('修改名稱', m.name);
+  if(!name?.trim()) return;
+  m.name = name.trim();
+  saveMembersData();
+  renderMembersList();
+  renderPayerBtns();
+  renderSplitBtns();
+  renderExpenses();
+}
+
+function deleteMember(id){
+  if(members.length <= 1){ alert('至少需要1位旅伴'); return; }
+  if(!confirm('確定刪除此旅伴？')) return;
+  members = members.filter(x=>x.id!==id);
+  if(selPayerId===id) selPayerId = members[0].id;
+  splitWith.delete(id);
+  saveMembersData();
+  renderMembersList();
+  renderPayerBtns();
+  renderSplitBtns();
+  renderExpenses();
+}
+
+function renderMembersList(){
+  const w = document.getElementById('members-wrap');
+  if(!w) return;
+  w.innerHTML = members.map(m=>`
+    <div style="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid ${m.color}22;border-radius:12px;padding:7px 10px">
+      <div style="width:10px;height:10px;border-radius:50%;background:${m.color};flex-shrink:0"></div>
+      <span style="font-size:13px;font-weight:600;color:#1a2540">${m.name}</span>
+      <button onclick="editMemberName(${m.id})" style="background:none;border:none;font-size:13px;cursor:pointer;padding:0 2px;color:#9aaac0">✏️</button>
+      <button onclick="deleteMember(${m.id})" style="background:none;border:none;font-size:13px;cursor:pointer;padding:0 2px;color:#9aaac0">✕</button>
+    </div>`).join('');
+}
+
+function renderPayerBtns(){
+  const w = document.getElementById('payer-btns');
+  if(!w) return;
+  w.innerHTML = members.map(m=>`
+    <div onclick="selPayer_(${m.id})" style="padding:8px 14px;border-radius:10px;border:1.5px solid ${selPayerId===m.id?m.color:'#dde3f0'};background:${selPayerId===m.id?m.color:'#EEF2F8'};color:${selPayerId===m.id?'#fff':'#4a5980'};font-size:13px;font-weight:700;cursor:pointer;transition:all .15s">${m.name}</div>`).join('');
+}
+
+function selPayer_(id){
+  selPayerId = id;
+  renderPayerBtns();
+  // auto add payer to split
+  if(splitType==='share'){
+    splitWith.add(id);
+    renderSplitBtns();
+  }
+}
+
+function setSplitType(type){
+  splitType = type;
+  const self = document.getElementById('split-self');
+  const share = document.getElementById('split-share');
+  const wrap = document.getElementById('split-members-wrap');
+  if(type==='self'){
+    self.style.background='#2A4D88'; self.style.borderColor='#2A4D88'; self.style.color='#fff';
+    share.style.background='#EEF2F8'; share.style.borderColor='#dde3f0'; share.style.color='#4a5980';
+    if(wrap) wrap.style.display='none';
+  } else {
+    share.style.background='#2A4D88'; share.style.borderColor='#2A4D88'; share.style.color='#fff';
+    self.style.background='#EEF2F8'; self.style.borderColor='#dde3f0'; self.style.color='#4a5980';
+    if(wrap){ wrap.style.display='block'; splitWith.add(selPayerId); renderSplitBtns(); }
+  }
+}
+
+function renderSplitBtns(){
+  const w = document.getElementById('split-member-btns');
+  if(!w) return;
+  w.innerHTML = members.map(m=>{
+    const on = splitWith.has(m.id);
+    return `<div onclick="toggleSplit(${m.id})" style="padding:8px 14px;border-radius:10px;border:1.5px solid ${on?m.color:'#dde3f0'};background:${on?m.color+'22':'#EEF2F8'};color:${on?m.color:'#4a5980'};font-size:13px;font-weight:700;cursor:pointer;transition:all .15s">${on?'✓ ':''}${m.name}</div>`;
+  }).join('');
+}
+
+function toggleSplit(id){
+  if(id===selPayerId){ return; } // payer always included
+  if(splitWith.has(id)) splitWith.delete(id);
+  else splitWith.add(id);
+  renderSplitBtns();
+}
+
 function addExpense(){
- const amt=parseInt(document.getElementById('exp-amount').value);
- const note=document.getElementById('exp-note').value.trim();
- const cat=document.getElementById('exp-cat').value;
- if(!amt||amt<=0){document.getElementById('exp-amount').focus();return;}
- expenses.push({id:Date.now(),amt,note:note||cat,cat,payer:selPayer_,date:new Date().toLocaleDateString('zh-TW',{month:'numeric',day:'numeric'})});
- document.getElementById('exp-amount').value='';
- document.getElementById('exp-note').value='';
- saveAll();
- renderExpenses();
+  const amt = parseInt(document.getElementById('exp-amount').value);
+  if(!amt||amt<=0){ document.getElementById('exp-amount').focus(); return; }
+  const note = document.getElementById('exp-note').value.trim();
+  const cat = document.getElementById('exp-cat').value;
+  const payer = members.find(m=>m.id===selPayerId);
+  if(!payer) return;
+
+  let splitIds = [];
+  if(splitType==='share' && splitWith.size>0){
+    splitIds = [...splitWith];
+    if(!splitIds.includes(selPayerId)) splitIds.push(selPayerId);
+  }
+
+  expenses.push({
+    id: Date.now(), amt, note:note||cat, cat,
+    payerId: selPayerId, payerName: payer.name, payerColor: payer.color,
+    splitType, splitIds,
+    date: new Date().toLocaleDateString('zh-TW',{month:'numeric',day:'numeric'})
+  });
+  document.getElementById('exp-amount').value='';
+  document.getElementById('exp-note').value='';
+  save(); renderExpenses();
 }
+
 function delExpense(id){
- expenses=expenses.filter(e=>e.id!==id);
- saveAll();
- renderExpenses();
+  expenses = expenses.filter(e=>e.id!==id);
+  save(); renderExpenses();
 }
+
 function renderExpenses(){
- const total=expenses.reduce((s,e)=>s+e.amt,0);
- const p1=expenses.filter(e=>e.payer===1).reduce((s,e)=>s+e.amt,0);
- const p2=expenses.filter(e=>e.payer===2).reduce((s,e)=>s+e.amt,0);
- document.getElementById('total-val').textContent='₩'+total.toLocaleString();
- document.getElementById('total-twd').textContent='≈ NT$'+Math.round(total/exRate).toLocaleString();
- document.getElementById('p1-val').textContent='₩'+p1.toLocaleString();
- document.getElementById('p2-val').textContent='₩'+p2.toLocaleString();
- const diff=p1-p2;
- const sv=document.getElementById('settle-val');
- if(expenses.length===0){sv.textContent='尚無記錄';}
- else if(Math.abs(diff)<100){sv.textContent='兩人平衡！不需還款 🎉';}
- else if(diff>0){sv.textContent=`人B 需還人A ₩${Math.abs(diff).toLocaleString()}`;}
- else{sv.textContent=`人A 需還人B ₩${Math.abs(diff).toLocaleString()}`;}
- // cat chart
- const cats={};
- expenses.forEach(e=>{cats[e.cat]=(cats[e.cat]||0)+e.amt;});
- const maxCat=Math.max(...Object.values(cats),1);
- document.getElementById('cat-chart').innerHTML=Object.entries(cats).length===0?
-  '<div style="font-size:12px;color:var(--text3);text-align:center;padding:8px">尚無記錄</div>':
-  Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([cat,amt])=>`
-   <div class="cat-row">
-    <div class="cat-label">${cat}</div>
-    <div class="cat-bar-wrap"><div class="cat-bar" style="width:${Math.round(amt/maxCat*100)}%;background:${CAT_COLORS[cat]||'#888'}"></div></div>
-    <div class="cat-amt">₩${(amt/1000).toFixed(0)}K</div>
-   </div>
-  `).join('');
- // list
- const list=document.getElementById('exp-list');
- list.innerHTML=expenses.length===0?
-  '<div class="empty">還沒有記錄<br>新增第一筆費用吧！</div>':
-  [...expenses].reverse().map(e=>`
-   <div class="exp-item">
-    <div class="exp-cat-dot" style="background:${CAT_COLORS[e.cat]||'#888'}"></div>
-    <div class="exp-info">
-     <div class="exp-name">${e.note}</div>
-     <div class="exp-meta">${e.date} · ${e.cat} · <span class="exp-payer" style="background:${e.payer===1?'#FBEAF0':'#E1F5EE'};color:${e.payer===1?'#72243E':'#04342C'}">人${e.payer===1?'A':'B'}</span></div>
-    </div>
-    <div>
-     <div class="exp-amount">₩${e.amt.toLocaleString()}</div>
-     <div style="font-size:10px;color:var(--text3);text-align:right">≈NT$${Math.round(e.amt/exRate)}</div>
-    </div>
-    <button class="del-btn" onclick="delExpense(${e.id})">✕</button>
-   </div>
-  `).join('');
+  const total = expenses.reduce((s,e)=>s+e.amt,0);
+  document.getElementById('total-val').textContent='₩'+total.toLocaleString();
+  document.getElementById('total-twd').textContent='≈ NT$'+Math.round(total/exRate).toLocaleString();
+
+  // Per-person: paid + owed
+  const paid = {}, owed = {};
+  members.forEach(m=>{ paid[m.id]=0; owed[m.id]=0; });
+
+  expenses.forEach(e=>{
+    const pid = e.payerId;
+    if(!paid[pid]) paid[pid]=0;
+    paid[pid] += e.amt;
+
+    if(e.splitType==='share' && e.splitIds?.length>0){
+      const share = Math.round(e.amt / e.splitIds.length);
+      e.splitIds.forEach(sid=>{
+        if(!owed[sid]) owed[sid]=0;
+        owed[sid] += share;
+      });
+    } else {
+      // self expense: payer owes it all to themselves
+      if(!owed[pid]) owed[pid]=0;
+      owed[pid] += e.amt;
+    }
+  });
+
+  // Summary cards
+  const wrap = document.getElementById('exp-summary-wrap');
+  if(wrap){
+    wrap.innerHTML = `
+      <div style="background:linear-gradient(135deg,#1e3a6e,#2A4D88);border-radius:16px;padding:14px;text-align:center;margin-bottom:8px">
+        <div style="font-size:11px;color:rgba(255,255,255,.8);font-weight:600">旅遊總消費</div>
+        <div style="font-size:28px;font-weight:800;color:#fff;margin-top:4px">₩${total.toLocaleString()}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.7)">≈ NT$${Math.round(total/exRate).toLocaleString()}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(${Math.min(members.length,3)},1fr);gap:7px;margin-bottom:10px">
+        ${members.map(m=>`
+          <div style="background:#fff;border:1.5px solid ${m.color}33;border-radius:14px;padding:10px 12px;text-align:center">
+            <div style="width:8px;height:8px;border-radius:50%;background:${m.color};margin:0 auto 4px"></div>
+            <div style="font-size:11px;color:#4a5980;font-weight:600">${m.name}</div>
+            <div style="font-size:15px;font-weight:800;color:#1a2540;margin-top:2px">₩${(paid[m.id]||0).toLocaleString()}</div>
+            <div style="font-size:10px;color:#9aaac0">實付</div>
+          </div>`).join('')}
+      </div>`;
+  }
+
+  // Settle: calculate net balances
+  // net[id] = paid[id] - owed[id]  (positive = others owe you, negative = you owe others)
+  const net = {};
+  members.forEach(m=>{ net[m.id] = (paid[m.id]||0) - (owed[m.id]||0); });
+
+  // Build settle strings
+  let settleLines = [];
+  const debtors = members.filter(m=>net[m.id]<-100).sort((a,b)=>net[a.id]-net[b.id]);
+  const creditors = members.filter(m=>net[m.id]>100).sort((a,b)=>net[b.id]-net[a.id]);
+  let d=[...debtors], c=[...creditors];
+  let di=0, ci=0;
+  let dAmt=d.map(m=>-net[m.id]), cAmt=c.map(m=>net[m.id]);
+  while(di<d.length && ci<c.length){
+    const pay = Math.min(dAmt[di], cAmt[ci]);
+    const debtor = members.find(m=>m.id===d[di].id);
+    const creditor = members.find(m=>m.id===c[ci].id);
+    settleLines.push(`<span style="color:${debtor.color};font-weight:700">${debtor.name}</span> 需還 <span style="color:${creditor.color};font-weight:700">${creditor.name}</span> ₩${Math.round(pay).toLocaleString()}`);
+    dAmt[di]-=pay; cAmt[ci]-=pay;
+    if(dAmt[di]<100) di++;
+    if(cAmt[ci]<100) ci++;
+  }
+
+  const sv = document.getElementById('settle-val');
+  if(!expenses.length){ sv.innerHTML='尚無記錄'; }
+  else if(!settleLines.length){ sv.innerHTML='<span style="color:#1D9E75;font-weight:700">✓ 帳目平衡，不需還款！🎉</span>'; }
+  else { sv.innerHTML = settleLines.join('<br>'); }
+
+  // Category chart
+  const cats={};
+  expenses.forEach(e=>{cats[e.cat]=(cats[e.cat]||0)+e.amt;});
+  const maxCat=Math.max(...Object.values(cats),1);
+  document.getElementById('cat-chart').innerHTML=Object.entries(cats).length?
+    Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([cat,amt])=>`
+      <div class="cat-row"><div class="cat-label">${cat}</div>
+      <div class="cat-bar-wrap"><div class="cat-bar" style="width:${Math.round(amt/maxCat*100)}%;background:${CAT_COLORS[cat]||'#888'}"></div></div>
+      <div class="cat-amt">₩${(amt/1000).toFixed(0)}K</div></div>`).join(''):
+    '<div style="font-size:12px;color:#9aaac0;text-align:center;padding:8px">尚無記錄</div>';
+
+  // Expense list
+  document.getElementById('exp-list').innerHTML=expenses.length?
+    [...expenses].reverse().map(e=>{
+      const splitLabel = e.splitType==='share' && e.splitIds?.length>1
+        ? `平攤(${e.splitIds.map(id=>members.find(m=>m.id===id)?.name||'?').join('+')})`
+        : '自費';
+      return `<div class="exp-item">
+        <div class="exp-cat-dot" style="background:${CAT_COLORS[e.cat]||'#888'}"></div>
+        <div class="exp-info">
+          <div class="exp-name">${e.note}</div>
+          <div class="exp-meta">${e.date} · ${e.cat} · <span style="background:${e.payerColor||'#2A4D88'}22;color:${e.payerColor||'#2A4D88'};padding:2px 7px;border-radius:6px;font-weight:700;font-size:10px">${e.payerName||'?'}</span> · <span style="color:#9aaac0;font-size:10px">${splitLabel}</span></div>
+        </div>
+        <div>
+          <div class="exp-amount">₩${e.amt.toLocaleString()}</div>
+          <div style="font-size:10px;color:#9aaac0;text-align:right">≈NT$${Math.round(e.amt/exRate)}</div>
+        </div>
+        <button class="del-btn" onclick="delExpense(${e.id})">✕</button>
+      </div>`;
+    }).join(''):
+    '<div class="empty">還沒有記錄<br>新增第一筆費用吧！</div>';
 }
 
 // ===== CHECKLIST =====
+const TODO_DEFAULT = [
+ {s:"🎫 需提前預訂",items:[
+  {t:"Blue Line Park 膠囊列車",sub:"提前1個月，bluelinepark.com"},
+  {t:"松林家 青沙浦屋頂",sub:"Naver 예약 或電話"},
+  {t:"熟成道烤肉",sub:"Naver 예약，強烈建議"},
+  {t:"나가리식당",sub:"Naver 예약"},
+  {t:"Foot Bath Cafe View",sub:"可現場預約時段"},
+  {t:"濟州租車",sub:"Lotte/SK Rent-a-Car"},
+  {t:"濟州涯月住宿",sub:"Airbnb/Booking.com"},
+ ]},
+ {s:"📱 出發前下載 App",items:[
+  {t:"Naver Map",sub:"韓國導航必備"},
+  {t:"Kakao T",sub:"叫計程車，出國前先註冊"},
+  {t:"Catch Table",sub:"83 Haechi 等熱門餐廳候位"},
+  {t:"Papago",sub:"即時翻譯"},
+  {t:"T Locker",sub:"找附近置物櫃"},
+  {t:"外送民族",sub:"濟州點外送用"},
+ ]},
+ {s:"🧾 證件 & 物品",items:[
+  {t:"護照（2本）",sub:"牛島渡輪、機場必帶"},
+  {t:"國際駕照（A+B都要蓋章）",sub:"牛島電動車、濟州租車"},
+  {t:"韓幣現金",sub:"牛島電動車₩30,000現金"},
+  {t:"Type-C轉USB轉接頭",sub:"租車CarPlay用Naver Map"},
+  {t:"防曬 SPF50+",sub:"5月陽光強"},
+  {t:"折疊雨傘",sub:"5月偶有陣雨"},
+ ]},
+ {s:"💳 省錢 & 折扣",items:[
+  {t:"Busan Pass Big5 考慮購買",sub:"Spa Land+纜車+Luge等免費"},
+  {t:"新世界百貨 3F 辦會員卡",sub:"95折+送折價券+飲料券"},
+  {t:"Klook 購買 Spa Land 票",sub:"比現場便宜"},
+  {t:"Spa Land 19:00後入場",sub:"40-50% 折扣！"},
+  {t:"Klook 購買 O'sulloc 組合券",sub:"抹茶冰淇淋+甜點更划算"},
+ ]},
+];
+
+// todoItems: [{id, text, sub, cat, done, custom}]
+let todoItems = [];
+
+function loadTodoItems(){
+  try{
+    const saved = localStorage.getItem('tj_todos2');
+    if(saved){ todoItems = JSON.parse(saved); return; }
+  }catch(e){}
+  // Build from default
+  todoItems = [];
+  TODO_DEFAULT.forEach((sec,si)=>{
+    sec.items.forEach((item,ii)=>{
+      todoItems.push({id:`${si}-${ii}`,text:item.t,sub:item.sub,cat:sec.s,done:false,custom:false});
+    });
+  });
+}
+
+function saveTodoItems(){
+  // merge done states from old clState
+  try{ localStorage.setItem('tj_todos2', JSON.stringify(todoItems)); }catch(e){}
+}
+
+function addTodoItem(){
+  const txt = document.getElementById('todo-new-text').value.trim();
+  if(!txt) return;
+  const cat = document.getElementById('todo-new-cat').value;
+  todoItems.push({id:'custom-'+Date.now(), text:txt, sub:'', cat, done:false, custom:true});
+  document.getElementById('todo-new-text').value='';
+  saveTodoItems(); buildTodo();
+}
+
+function toggleCl(id){
+  const item = todoItems.find(x=>x.id===id);
+  if(!item) return;
+  item.done = !item.done;
+  saveTodoItems(); buildTodo();
+}
+
+function editTodoItem(id){
+  const item = todoItems.find(x=>x.id===id);
+  if(!item) return;
+  const newText = prompt('修改項目', item.text);
+  if(newText?.trim()){ item.text=newText.trim(); saveTodoItems(); buildTodo(); }
+}
+
+function deleteTodoItem(id){
+  if(!confirm('刪除此項目？')) return;
+  todoItems = todoItems.filter(x=>x.id!==id);
+  saveTodoItems(); buildTodo();
+}
+
 function buildTodo(){
- const w=document.getElementById('todo-wrap');
- w.innerHTML=TODO_DATA.map((sec,si)=>`
-  <div class="sec">${sec.s}</div>
-  ${sec.items.map((item,ii)=>{
-   const key=`${si}-${ii}`;
-   const done=!!clState[key];
-   return `<div class="cl-item ${done?'done':''}" id="cl-${key}" onclick="toggleCl('${key}')">
-    <div class="chkbox"><span class="chkmark">✓</span></div>
-    <div><div class="cl-text">${item.t}</div><div class="cl-sub">${item.sub}</div></div>
-   </div>`;
-  }).join('')}
- `).join('');
- updateCheckProgress();
+  const total = todoItems.length;
+  const done = todoItems.filter(x=>x.done).length;
+  const prog = document.getElementById('check-progress-text');
+  if(prog) prog.textContent=`已完成 ${done} / ${total} 項`;
+
+  // Group by cat
+  const groups = {};
+  todoItems.forEach(item=>{
+    if(!groups[item.cat]) groups[item.cat]=[];
+    groups[item.cat].push(item);
+  });
+
+  const w = document.getElementById('todo-wrap');
+  if(!w) return;
+  w.innerHTML = Object.entries(groups).map(([cat, items])=>`
+    <div style="font-size:10px;font-weight:800;color:#4a5980;letter-spacing:.08em;text-transform:uppercase;margin:14px 0 8px">${cat}</div>
+    ${items.map(item=>`
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:#fff;border:1px solid rgba(42,77,136,.08);border-radius:14px;margin-bottom:7px;box-shadow:0 2px 12px rgba(42,77,136,.06);transition:all .15s" onclick="toggleCl('${item.id}')">
+        <div style="width:20px;height:20px;border-radius:7px;border:2px solid ${item.done?'#2A4D88':'rgba(42,77,136,.2)'};background:${item.done?'#2A4D88':'transparent'};flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px">
+          <span style="font-size:12px;color:#fff;opacity:${item.done?'1':'0'}">✓</span>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:600;color:${item.done?'#9aaac0':'#1a2540'};text-decoration:${item.done?'line-through':'none'}">${item.text}</div>
+          ${item.sub?`<div style="font-size:11px;color:#9aaac0;margin-top:2px">${item.sub}</div>`:''}
+        </div>
+        <div style="display:flex;gap:4px;flex-shrink:0" onclick="event.stopPropagation()">
+          <button onclick="editTodoItem('${item.id}')" style="background:none;border:none;font-size:14px;cursor:pointer;padding:2px;color:#9aaac0">✏️</button>
+          ${item.custom?`<button onclick="deleteTodoItem('${item.id}')" style="background:none;border:none;font-size:14px;cursor:pointer;padding:2px;color:#9aaac0">✕</button>`:''}
+        </div>
+      </div>`).join('')}`).join('');
 }
-function toggleCl(key){
- clState[key]=!clState[key];
- const el=document.getElementById('cl-'+key);
- el.classList.toggle('done',clState[key]);
- saveAll();
- updateCheckProgress();
-}
+
 function updateCheckProgress(){
- const total=TODO_DATA.reduce((s,sec)=>s+sec.items.length,0);
- const done=Object.values(clState).filter(Boolean).length;
- const el=document.getElementById('check-progress-text');
- if(el)el.textContent=`已完成 ${done} / ${total} 項`;
+  const total=todoItems.length, done=todoItems.filter(x=>x.done).length;
+  const el=document.getElementById('check-progress-text');
+  if(el) el.textContent=`已完成 ${done} / ${total} 項`;
 }
 
 // ===== INIT =====
 loadAll();
+loadMembersData();
+loadTodoItems();
+// migrate old clState to todoItems
+try{
+  const savedCl = localStorage.getItem('tj2_cl')||localStorage.getItem('tj_cl');
+  if(savedCl){ const old=JSON.parse(savedCl); todoItems.forEach(item=>{if(old[item.id]!==undefined)item.done=!!old[item.id];}); saveTodoItems(); }
+}catch(e){}
 updateCountdown();
 setInterval(updateCountdown,60000);
 buildWeather();
@@ -1089,15 +1386,11 @@ buildDayRow();
 renderDay(curDay);
 buildQuickBtns();
 document.getElementById('ex-rate').value=exRate;
+renderMembersList();
+renderPayerBtns();
+renderSplitBtns();
 renderExpenses();
 buildTodo();
-
-// restore notes
-document.querySelectorAll('.note-area').forEach(ta=>{
- const k=ta.id;
- if(notes[k])ta.value=notes[k];
- ta.addEventListener('input',()=>{notes[ta.id]=ta.value;saveAll();});
-});
 
 // ===== DRAG CROSS-DAY =====
 var _dSrc=null,_tSrc=null,_tEl=null,_tClone=null,_editK=null,_aiSug=null;
