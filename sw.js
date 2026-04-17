@@ -1,4 +1,4 @@
-const CACHE = 'busan-jeju-v1';
+const CACHE = 'busan-jeju-v2';
 const ASSETS = [
   '/busan-jeju-trip/',
   '/busan-jeju-trip/index.html',
