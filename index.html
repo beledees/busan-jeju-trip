@@ -2,25 +2,27 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<script>
+// 自動移除所有 Service Worker，確保每次都讀最新版
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations().then(regs=>{
+    regs.forEach(r=>r.unregister());
+  });
+}
+if('caches' in window){
+  caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
+}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#D4537E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="釜山濟州">
 <link rel="manifest" href="manifest.json">
-<script>
-// 強制清除所有舊 Service Worker 和快取
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.getRegistrations().then(function(regs){
-    regs.forEach(function(r){r.unregister();});
-  });
-}
-if('caches' in window){
-  caches.keys().then(function(keys){
-    keys.forEach(function(k){caches.delete(k);});
-  });
-}
-</script>
+
 <title>釜山 × 濟州島 2026</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
