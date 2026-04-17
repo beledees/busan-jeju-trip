@@ -40,9 +40,9 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
 .nav-btn:active{transform:scale(.92)}
 .nav-ico{font-size:20px;line-height:1}
 .nav-lbl{font-size:10px;font-weight:500;color:var(--text3)}
-.nav-btn.on .nav-lbl{color:var(--pk)}
+.nav-btn.on .nav-lbl{color:#2A4D88}
 .nav-btn.on .nav-ico{filter:none}
-.nav-dot{width:5px;height:5px;border-radius:50%;background:var(--pk);margin:0 auto;opacity:0}
+.nav-dot{width:5px;height:5px;border-radius:50%;background:#2A4D88;margin:0 auto;opacity:0}
 .nav-btn.on .nav-dot{opacity:1}
 
 /* ===== VIEWS ===== */
@@ -50,22 +50,22 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
 .view.on{display:block}
 
 /* ===== HERO ===== */
-.hero{background:linear-gradient(135deg,#FBEAF0 0%,#F4C0D1 100%);padding:20px 16px 18px;position:relative;overflow:hidden;margin-bottom:0}
+.hero{background:linear-gradient(135deg,#1e3a6e 0%,#2A4D88 55%,#7C94B8 100%);padding:20px 16px 18px;position:relative;overflow:hidden;margin-bottom:0}
 .hero-blob{position:absolute;border-radius:50%;opacity:.5}
-.hero-blob1{width:120px;height:120px;background:#FAC775;top:-30px;right:-20px}
-.hero-blob2{width:80px;height:80px;background:#F4C0D1;bottom:-20px;right:40px}
+.hero-blob1{width:120px;height:120px;background:#5a8fd4;top:-30px;right:-20px}
+.hero-blob2{width:80px;height:80px;background:#a8c4e8;bottom:-20px;right:40px}
 .hero-blob3{width:60px;height:60px;background:#9FE1CB;top:20px;right:60px;opacity:.3}
-.hero-chip{display:inline-flex;align-items:center;gap:5px;background:var(--pk);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:8px}
-.hero-title{font-size:26px;font-weight:700;color:var(--pk4);line-height:1.1;position:relative;z-index:1}
-.hero-sub{font-size:13px;color:#993556;margin-top:4px;position:relative;z-index:1}
-.countdown-bar{background:rgba(255,255,255,.7);border-radius:12px;padding:10px 14px;margin-top:12px;position:relative;z-index:1}
-.cd-label{font-size:11px;color:#993556;font-weight:500}
-.cd-num{font-size:22px;font-weight:700;color:var(--pk4);margin-top:1px}
-.cd-sub{font-size:11px;color:#993556}
+.hero-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:8px;border:1px solid rgba(255,255,255,.3)}
+.hero-title{font-size:26px;font-weight:700;color:#fff;line-height:1.1;position:relative;z-index:1}
+.hero-sub{font-size:13px;color:rgba(255,255,255,.82);margin-top:4px;position:relative;z-index:1}
+.countdown-bar{background:rgba(255,255,255,.15);border-radius:12px;padding:10px 14px;margin-top:12px;position:relative;z-index:1;border:1px solid rgba(255,255,255,.25)}
+.cd-label{font-size:11px;color:rgba(255,255,255,.8);font-weight:500}
+.cd-num{font-size:22px;font-weight:700;color:#fff;margin-top:1px}
+.cd-sub{font-size:11px;color:rgba(255,255,255,.7)}
 .fl-row{display:flex;gap:6px;margin-top:12px;position:relative;z-index:1}
-.fl-card{background:rgba(255,255,255,.8);border-radius:10px;padding:7px 10px;flex:1}
-.fl-lbl{font-size:9px;color:#993556;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.fl-val{font-size:11px;font-weight:700;color:var(--pk4);margin-top:1px}
+.fl-card{background:rgba(255,255,255,.15);border-radius:10px;padding:7px 10px;flex:1;border:1px solid rgba(255,255,255,.2)}
+.fl-lbl{font-size:9px;color:rgba(255,255,255,.75);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.fl-val{font-size:11px;font-weight:700;color:#fff;margin-top:1px}
 
 /* ===== SECTION LABEL ===== */
 .sec{font-size:10px;font-weight:700;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;margin:16px 0 8px;padding:0}
@@ -75,7 +75,7 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
 .day-scroll::-webkit-scrollbar{display:none}
 .dpill{flex-shrink:0;border-radius:18px;padding:10px 14px;cursor:pointer;text-align:center;border:1.5px solid var(--border);background:var(--card);transition:all .2s}
 .dpill:active{transform:scale(.92)}
-.dpill.on{background:var(--pk);border-color:var(--pk);box-shadow:0 4px 12px rgba(212,83,126,.3)}
+.dpill.on{background:#2A4D88;border-color:#2A4D88;box-shadow:0 4px 12px rgba(42,77,136,.35)}
 .dp-e{font-size:18px;line-height:1}
 .dp-n{font-size:12px;font-weight:700;color:var(--text);margin-top:2px}
 .dpill.on .dp-n,.dpill.on .dp-d{color:#fff}
@@ -146,7 +146,7 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
 .cl-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:7px;cursor:pointer;box-shadow:var(--shadow);transition:all .15s}
 .cl-item:active{transform:scale(.98)}
 .chkbox{width:20px;height:20px;border-radius:7px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
-.cl-item.done .chkbox{background:var(--pk);border-color:var(--pk)}
+.cl-item.done .chkbox{background:#2A4D88;border-color:#2A4D88}
 .chkmark{font-size:12px;color:#fff;opacity:0}
 .cl-item.done .chkmark{opacity:1}
 .cl-text{font-size:13px;color:var(--text);font-weight:500;flex:1;line-height:1.4}
@@ -156,15 +156,15 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
 /* ===== EXPENSE ===== */
 .exp-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .exp-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);text-align:center}
-.exp-card.total{grid-column:1/-1;background:linear-gradient(135deg,#FBEAF0,#F4C0D1)}
+.exp-card.total{grid-column:1/-1;background:linear-gradient(135deg,#1e3a6e,#2A4D88)}
 .exp-lbl{font-size:11px;color:var(--text2);font-weight:500}
 .exp-val{font-size:20px;font-weight:700;color:var(--text);margin-top:3px}
-.exp-card.total .exp-val{font-size:26px;color:var(--pk4)}
+.exp-card.total .exp-val{font-size:26px;color:#fff}
 .exp-sub{font-size:11px;color:var(--text3);margin-top:2px}
 
-.settle-box{background:var(--pk2);border:1.5px solid var(--pk3);border-radius:16px;padding:14px;margin-bottom:12px;text-align:center}
-.settle-lbl{font-size:12px;color:#993556;font-weight:600}
-.settle-val{font-size:18px;font-weight:700;color:var(--pk4);margin-top:4px}
+.settle-box{background:#EEF4FF;border:1.5px solid #B5D4F4;border-radius:16px;padding:14px;margin-bottom:12px;text-align:center}
+.settle-lbl{font-size:12px;color:#2A4D88;font-weight:600}
+.settle-val{font-size:18px;font-weight:700;color:#1e3a6e;margin-top:4px}
 
 .add-exp-form{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
 .form-row{display:flex;gap:8px;margin-bottom:10px;align-items:center}
@@ -174,9 +174,9 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
 .form-select{flex:1;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:13px;color:var(--text);background:var(--bg);outline:none;appearance:none;font-family:inherit}
 .payer-row{display:flex;gap:8px}
 .payer-btn{flex:1;padding:9px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;text-align:center}
-.payer-btn.on{background:var(--pk);border-color:var(--pk);color:#fff}
-.add-btn{width:100%;padding:12px;border-radius:14px;background:var(--pk);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px}
-.add-btn:active{transform:scale(.97);background:#B8456B}
+.payer-btn.on{background:#2A4D88;border-color:#2A4D88;color:#fff}
+.add-btn{width:100%;padding:12px;border-radius:14px;background:#2A4D88;border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px}
+.add-btn:active{transform:scale(.97);background:#1e3a6e}
 
 .exp-list{display:flex;flex-direction:column;gap:7px}
 .exp-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:11px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
@@ -209,10 +209,10 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
 .ex-input{width:100%;border:none;background:transparent;font-size:26px;font-weight:700;color:var(--text);outline:none;font-family:inherit}
 .ex-input::placeholder{color:var(--text3)}
 .ex-swap{display:flex;justify-content:center;margin:0}
-.ex-swap-btn{width:40px;height:40px;border-radius:50%;background:var(--pk);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ex-swap-btn{width:40px;height:40px;border-radius:50%;background:#2A4D88;border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .ex-swap-btn:active{transform:scale(.9) rotate(180deg)}
 .quick-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
-.quick-btn{flex:1;min-width:calc(25% - 5px);padding:8px 4px;border-radius:10px;background:var(--pk2);border:1px solid var(--pk3);font-size:11px;font-weight:700;color:var(--pk4);cursor:pointer;text-align:center;transition:all .15s}
+.quick-btn{flex:1;min-width:calc(25% - 5px);padding:8px 4px;border-radius:10px;background:#EEF4FF;border:1px solid #B5D4F4;font-size:11px;font-weight:700;color:#1e3a6e;cursor:pointer;text-align:center;transition:all .15s}
 .quick-btn:active{background:var(--pk3);transform:scale(.96)}
 
 /* ===== WEATHER ===== */
@@ -240,9 +240,9 @@ html,body{height:100%;background:#FFF5F8;font-family:-apple-system,'Helvetica Ne
 .code-box{background:var(--pk2);border:1px solid var(--pk3);border-radius:10px;padding:6px 12px;font-family:monospace;font-size:16px;font-weight:700;color:var(--pk4);display:inline-block;letter-spacing:.05em}
 
 /* ===== BUDGET CHECKER ===== */
-.budget-total{background:linear-gradient(135deg,#FBEAF0,#F4C0D1);border-radius:18px;padding:16px;text-align:center;margin-bottom:12px}
-.bt-lbl{font-size:12px;color:#993556;font-weight:600}
-.bt-num{font-size:32px;font-weight:700;color:var(--pk4);margin:4px 0}
+.budget-total{background:linear-gradient(135deg,#1e3a6e,#2A4D88);border-radius:18px;padding:16px;text-align:center;margin-bottom:12px}
+.bt-lbl{font-size:12px;color:rgba(255,255,255,.8);font-weight:600}
+.bt-num{font-size:32px;font-weight:700;color:#fff;margin:4px 0}
 .bt-sub{font-size:11px;color:#993556}
 .budget-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px}
 .bg-item{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:10px 12px;cursor:pointer;transition:all .2s;box-shadow:var(--shadow)}
@@ -868,12 +868,12 @@ function renderDay(i){
  const done=d.stops.filter((_,si)=>picks[`${i}-${si}`]!==undefined).length;
  const pct=Math.round(done/d.stops.length*100);
  document.getElementById('dhero-wrap').innerHTML=`
-  <div class="dhero" style="background:${d.bg}">
-   <div class="dh-title" style="color:${d.tc}">${d.e} ${d.thm}</div>
-   <div class="dh-sub" style="color:${d.sc}">${d.desc}</div>
+  <div class="dhero" style="background:linear-gradient(135deg,#1e3a6e,#2A4D88);border-radius:18px">
+   <div class="dh-title" style="color:#fff">${d.e} ${d.thm}</div>
+   <div class="dh-sub" style="color:rgba(255,255,255,.85)">${d.desc}</div>
    <div class="dh-progress">
     <div class="dh-pbar"><div class="dh-pfill" style="width:${pct}%"></div></div>
-    <div class="dh-pnum" style="color:${d.tc}">${done}/${d.stops.length}</div>
+    <div class="dh-pnum" style="color:rgba(255,255,255,.9)">${done}/${d.stops.length}</div>
    </div>
   </div>`;
  const w=document.getElementById('stops-wrap');
@@ -882,7 +882,11 @@ function renderDay(i){
   const hasC=s.choices&&s.choices.length>0;
   const isOpen=hasC&&picks[key]!==undefined;
   const tags=(s.tags||[]).map(t=>`<span class="tag ${TAG_C[t.c]||'tag-tip'}">${t.l}</span>`).join('');
-  const mapBtn=s.map?`<a class="mapbtn" href="${s.map}" target="_blank">📍 Naver Map</a>`:'';
+  const nmUrl=s.map||(s.lat?`nmap://place?lat=${s.lat}&lng=${s.lng}&name=${encodeURIComponent(s.nm)}`:'');
+  const webUrl=s.search||s.nm;
+  const mapBtn=nmUrl?`<a class="mapbtn" href="${nmUrl}" onclick="(function(e){e.stopPropagation();e.preventDefault();window.location.href='${nmUrl}';setTimeout(function(){window.open('https://map.naver.com/v5/search/'+encodeURIComponent('${webUrl.replace(/'/g,'')}'),'_blank');},700);})(event)" style="text-decoration:none">📍 Naver Map</a>`:'';
+  const photoBtn=`<a class="mapbtn" href="https://www.google.com/search?q=${encodeURIComponent((s.search||s.nm)+' 景點')}&tbm=isch" target="_blank" style="background:#EEF4FF;border-color:#B5D4F4;color:#2A4D88;text-decoration:none">📷 照片</a>`;
+  const editB=`<button onclick="(function(e){e.stopPropagation();openEdit_('${key}');})(event)" style="padding:6px 9px;border-radius:9px;font-size:11px;font-weight:700;background:#EEF2F8;border:1px solid #dde3f0;color:#4a5980;cursor:pointer">✏️</button>`;
   let ch='';
   if(hasC){
    ch=`<div class="choices">
@@ -901,16 +905,19 @@ function renderDay(i){
     `).join('')}
    </div>`;
   }
-  return `
-   <div class="sc ${hasC?'expandable':''} ${isOpen?'open':''}" id="sc-${key}" ${hasC?`onclick="toggleSC('${key}')"`:''}">
+  const isJeju=i>=4;
+  const tranBar=si>0?`<div style="display:flex;align-items:center;gap:8px;padding:3px 14px"><div style="width:2px;height:20px;background:#dde3f0;border-radius:1px;margin-left:20px;flex-shrink:0"></div><div style="flex:1;background:#EEF2F8;border-radius:8px;padding:4px 10px;font-size:11px;color:#4a5980">${isJeju?'🚗 自駕前往下一站':'🚕 計程車/步行前往'}</div></div>`:'';
+  return tranBar+`
+   <div class="sc ${hasC?'expandable':''} ${isOpen?'open':''}" id="sc-${key}" data-dk="${key}" draggable="true" ondragstart="dS(event,'${key}')" ondragover="dO(event,'${key}')" ondrop="dDrop(event,'${key}')" ondragend="dE(event)" ontouchstart="tsS(event,'${key}')" ontouchmove="tsM(event)" ontouchend="tsE(event)" ${hasC?`onclick="toggleSC('${key}')"`:''}">
     <div class="sc-row">
+     <span style="font-size:14px;color:#9aaac0;cursor:grab;padding:4px 2px;flex-shrink:0;user-select:none;touch-action:none" onclick="event.stopPropagation()">⋮⋮</span>
      <div class="sc-ico" style="background:${s.ib}">${s.ico}</div>
      <div class="sc-mid">
       <div class="sc-time">${s.t}</div>
       <div class="sc-name">${s.nm}</div>
       <div class="sc-note">${s.note}</div>
       <div class="sc-tags">${tags}</div>
-      ${mapBtn}
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${mapBtn}${photoBtn}${editB}</div>
      </div>
      ${hasC?`<div class="sc-end"><div class="arr">▾</div></div>`:''}
     </div>
@@ -1076,7 +1083,58 @@ document.querySelectorAll('.note-area').forEach(ta=>{
  if(notes[k])ta.value=notes[k];
  ta.addEventListener('input',()=>{notes[ta.id]=ta.value;saveAll();});
 });
+
+// ===== DRAG CROSS-DAY =====
+var _dSrc=null,_tSrc=null,_tEl=null,_tClone=null,_editK=null,_aiSug=null;
+function dS(e,k){_dSrc=k;e.dataTransfer.effectAllowed='move';e.currentTarget.style.opacity='.4';}
+function dO(e,k){e.preventDefault();document.querySelectorAll('[data-dk]').forEach(function(x){x.style.outline='';});e.currentTarget.style.outline='2px solid #2A4D88';}
+function dDrop(e,k){e.preventDefault();document.querySelectorAll('[data-dk]').forEach(function(x){x.style.outline='';});if(_dSrc&&_dSrc!==k)mv_(_dSrc,k);_dSrc=null;}
+function dE(e){e.currentTarget.style.opacity='1';document.querySelectorAll('[data-dk]').forEach(function(x){x.style.outline='';}); }
+function tsS(e,k){_tSrc=k;_tEl=e.currentTarget;var t=e.touches[0];_tClone=_tEl.cloneNode(true);Object.assign(_tClone.style,{position:'fixed',top:t.clientY-40+'px',left:t.clientX-30+'px',width:_tEl.offsetWidth+'px',opacity:'.7',zIndex:'9999',pointerEvents:'none',borderRadius:'16px',boxShadow:'0 8px 24px rgba(0,0,0,.2)'});document.body.appendChild(_tClone);_tEl.style.opacity='.3';}
+function tsM(e){if(!_tClone)return;e.preventDefault();var t=e.touches[0];_tClone.style.top=t.clientY-40+'px';_tClone.style.left=t.clientX-30+'px';}
+function tsE(e){if(_tClone){_tClone.remove();_tClone=null;}if(_tEl){_tEl.style.opacity='1';_tEl=null;}if(!_tSrc)return;var t=e.changedTouches[0];var els=document.elementsFromPoint(t.clientX,t.clientY);for(var i=0;i<els.length;i++){if(els[i].dataset.dk&&els[i].dataset.dk!==_tSrc){mv_(_tSrc,els[i].dataset.dk);break;}}_tSrc=null;}
+function mv_(sk,tk){var sp=sk.split('-'),tp=tk.split('-'),si=+sp[0],ss=+sp[1],ti=+tp[0],ts=+tp[1];var stop=DAYS[si].stops.splice(ss,1)[0];DAYS[ti].stops.splice(ts,0,stop);var np={};Object.keys(picks).forEach(function(k){var v=picks[k];var p=k.split('-'),di=+p[0],idx=+p[1];if(di===si){if(idx!==ss)np[si+'-'+(idx>ss?idx-1:idx)]=v;}else if(di===ti)np[ti+'-'+(idx>=ts?idx+1:idx)]=v;else np[k]=v;});picks=np;save();buildDayRow();if(si!==ti){renderDay(si);setTimeout(function(){selDay(ti);},150);}else renderDay(si);}
+
+// ===== EDIT =====
+function openEdit_(key){_editK=key;var p=key.split('-'),di=+p[0],si=+p[1],s=DAYS[di].stops[si];document.getElementById('_et').value=s.t||'';document.getElementById('_en').value=s.nm||'';document.getElementById('_enote').value=s.note||'';document.getElementById('_em').style.display='flex';}
+function saveEdit_(){if(!_editK)return;var p=_editK.split('-'),di=+p[0],si=+p[1];DAYS[di].stops[si].t=document.getElementById('_et').value;DAYS[di].stops[si].nm=document.getElementById('_en').value;DAYS[di].stops[si].note=document.getElementById('_enote').value;save();document.getElementById('_em').style.display='none';_editK=null;renderDay(curDay);}
+
+// ===== AI =====
+async function runAI_(){var place=document.getElementById('_ai_inp').value.trim();if(!place)return;document.getElementById('_ai_load').style.display='block';document.getElementById('_ai_res').style.display='none';document.getElementById('_ai_ok').style.display='none';var sum=DAYS.map(function(d,i){return d.l+'('+d.d+'): '+d.stops.map(function(s){return s.nm||'';}).join('\u3001');}).join('\n');try{var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:'你是釜山濟州旅遊專家。\n行程：\n'+sum+'\n\n用戶想加入：「'+place+'」\n\n請以JSON格式回答（只回JSON）：{"day":1,"time":"14:00","reason":"理由","emoji":"📍","note":"建議"}'}]})});var d=await r.json();var txt=d.content[0].text.replace(/```json|```/g,'').trim();_aiSug=JSON.parse(txt);var dy=DAYS[Math.min(_aiSug.day-1,6)];document.getElementById('_ai_res').innerHTML='<strong>建議加入 '+dy.l+'（'+dy.d+'）'+_aiSug.time+'</strong><br><br>'+_aiSug.reason+'<br><br>\uD83D\uDCDD '+_aiSug.note;document.getElementById('_ai_res').style.display='block';document.getElementById('_ai_ok').style.display='block';}catch(e){document.getElementById('_ai_res').innerHTML='分析失敗，請重試';document.getElementById('_ai_res').style.display='block';}document.getElementById('_ai_load').style.display='none';}
+function confirmAI_(){if(!_aiSug)return;var place=document.getElementById('_ai_inp').value.trim();var di=Math.min(_aiSug.day-1,6);var ns={t:_aiSug.time,ico:_aiSug.emoji||'\uD83D\uDCCD',ib:'#B5D4F4',nm:place,note:_aiSug.note||'AI\u65B0\u589E',tags:[{l:'AI\u65B0\u589E',c:'tip'}]};var stops=DAYS[di].stops,idx=stops.length;for(var i=0;i<stops.length;i++){if((stops[i].t||'99:99')>_aiSug.time){idx=i;break;}}stops.splice(idx,0,ns);save();document.getElementById('_am').style.display='none';_aiSug=null;selDay(di);}
+
 </script>
+
+
+<button onclick="document.getElementById('_am').style.display='flex'" style="position:fixed;bottom:90px;right:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#2A4D88,#3d6ab5);border:none;color:#fff;font-size:22px;cursor:pointer;box-shadow:0 4px 16px rgba(42,77,136,.4);z-index:150;display:flex;align-items:center;justify-content:center" title="AI 新增景點">✨</button>
+
+<div id="_am" style="position:fixed;inset:0;background:rgba(26,37,64,.5);z-index:500;display:none;align-items:flex-end;justify-content:center">
+ <div style="background:#fff;border-radius:24px 24px 0 0;padding:20px 20px 40px;width:100%;max-width:430px">
+  <div style="font-size:16px;font-weight:700;color:#1a2540;margin-bottom:6px">✨ AI 智慧新增景點</div>
+  <div style="font-size:12px;color:#4a5980;margin-bottom:14px;line-height:1.5">輸入想去的地點，AI 會分析行程並幫你排在最合適的天數和時間</div>
+  <div style="display:flex;gap:8px;margin-bottom:12px">
+   <input id="_ai_inp" style="flex:1;border:1.5px solid #dde3f0;border-radius:12px;padding:11px 13px;font-size:14px;color:#1a2540;background:#EEF2F8;outline:none;font-family:inherit" placeholder="例：涉地可支、月汀里海灘...">
+   <button onclick="runAI_()" style="background:#2A4D88;border:none;color:#fff;font-size:13px;font-weight:700;padding:11px 16px;border-radius:12px;cursor:pointer">分析</button>
+  </div>
+  <div id="_ai_load" style="display:none;text-align:center;color:#9aaac0;font-size:13px;padding:10px">✨ AI 分析中...</div>
+  <div id="_ai_res" style="background:#EEF2F8;border-radius:12px;padding:13px;font-size:13px;color:#1a2540;line-height:1.6;margin-bottom:10px;display:none;border:1.5px solid #B5D4F4"></div>
+  <button id="_ai_ok" onclick="confirmAI_()" style="width:100%;padding:12px;border-radius:14px;background:#1D9E75;border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;display:none;margin-bottom:8px">✓ 加入行程</button>
+  <button onclick="document.getElementById('_am').style.display='none'" style="width:100%;padding:11px;border-radius:14px;border:1.5px solid #dde3f0;background:none;font-size:14px;color:#4a5980;cursor:pointer">取消</button>
+ </div>
+</div>
+
+<div id="_em" style="position:fixed;inset:0;background:rgba(26,37,64,.5);z-index:500;display:none;align-items:flex-end;justify-content:center">
+ <div style="background:#fff;border-radius:24px 24px 0 0;padding:20px 20px 40px;width:100%;max-width:430px">
+  <div style="font-size:16px;font-weight:700;color:#1a2540;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">✏️ 編輯行程<span onclick="document.getElementById('_em').style.display='none'" style="font-size:20px;color:#9aaac0;cursor:pointer">✕</span></div>
+  <div style="font-size:11px;font-weight:600;color:#4a5980;margin-bottom:5px">時間</div>
+  <input id="_et" style="width:100%;border:1.5px solid #dde3f0;border-radius:11px;padding:10px 13px;font-size:14px;color:#1a2540;background:#EEF2F8;outline:none;font-family:inherit;margin-bottom:10px" placeholder="09:00">
+  <div style="font-size:11px;font-weight:600;color:#4a5980;margin-bottom:5px">景點名稱</div>
+  <input id="_en" style="width:100%;border:1.5px solid #dde3f0;border-radius:11px;padding:10px 13px;font-size:14px;color:#1a2540;background:#EEF2F8;outline:none;font-family:inherit;margin-bottom:10px" placeholder="景點名稱">
+  <div style="font-size:11px;font-weight:600;color:#4a5980;margin-bottom:5px">備註說明</div>
+  <textarea id="_enote" style="width:100%;border:1.5px solid #dde3f0;border-radius:11px;padding:10px 13px;font-size:13px;color:#1a2540;background:#EEF2F8;outline:none;font-family:inherit;min-height:70px;resize:vertical;margin-bottom:12px" placeholder="備註說明"></textarea>
+  <button onclick="saveEdit_()" style="width:100%;padding:12px;border-radius:14px;background:#2A4D88;border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer">儲存</button>
+ </div>
+</div>
 
 </body>
 </html>
