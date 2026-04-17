@@ -1,29 +1,9 @@
-const CACHE = 'busan-jeju-v2';
-const ASSETS = [
-  '/busan-jeju-trip/',
-  '/busan-jeju-trip/index.html',
-  '/busan-jeju-trip/manifest.json',
-  '/busan-jeju-trip/sw.js'
-];
-
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS))
-  );
-  self.skipWaiting();
-});
-
+// This SW intentionally does nothing - app loads fresh every time
+self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
-});
-
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => caches.match('/index.html')))
+    caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
+// No fetch handler = always go to network
